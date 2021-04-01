@@ -11,6 +11,9 @@ const Eat = () => import('../views/Eat')
 const Cart = () => import('../views/Cart')
 const My = () => import('../views/My')
 
+// 登录页
+const Login = () => import('../views/Login')
+
 const routes = [
   {
     path: '/',
@@ -45,6 +48,10 @@ const routes = [
       component: My
     }
     ]
+  }, {
+    path: '/login',
+    name: 'login',
+    component: Login
   }
 ]
 

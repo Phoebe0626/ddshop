@@ -5,6 +5,8 @@ import store from './store'
 
 import 'amfe-flexible'
 
+import './icons'
+
 Vue.config.productionTip = false
 
 new Vue({
