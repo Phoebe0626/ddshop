@@ -1,8 +1,18 @@
 <template>
   <div id="app">
+    <van-button type="primary">主要按钮</van-button>
     <router-view/>
   </div>
 </template>
+
+<script>
+import { Button } from 'vant'
+export default {
+  components: {
+    [Button.name]: Button
+  }
+}
+</script>
 
 <style lang="less">
 #app {
@@ -11,18 +21,5 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
 }
 </style>
