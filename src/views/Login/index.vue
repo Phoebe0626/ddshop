@@ -1,70 +1,91 @@
 <template>
   <div class="login-container">
     <div class="form-wrap">
-      <van-tabs background="rgba(255, 255, 255m .8)" animated>
-      <van-tab title="登录">
-        <!-- 登录表单 -->
-        <van-form ref="form">
-          <van-field
-            v-model="mobile"
-            maxlength="11"
-            clearable
-            name="手机号"
-            label="手机号"
-            placeholder="请输入手机号"
-          />
-          <van-field
-            v-model="code"
-            name="验证码"
-            label="验证码"
-            clearable
-            placeholder="验证码"
-          >
-            <!-- 按钮 - 发送验证码 -->
-            <van-button
-              v-if="showSendBtn"
-              slot="button"
-              type="primary"
-              size="small"
-              :disabled="codeDisabled"
-              @click="hSendCode"
-            >发送验证码</van-button>
-            <!-- 按钮 - 已发送 -->
-            <van-button
-              v-else
-              slot="button"
-              type="primary"
-              size="small"
-              disabled
-            >已发送{{countdown}}s</van-button>
-          </van-field>
-          <div style="margin: 16px;">
-            <van-button round block type="info" @click="hLogin">登录</van-button>
-          </div>
-        </van-form>
-        <!-- 分割线 -->
-        <van-divider :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }">其他登录方式</van-divider>
-        <!-- 微信 QQ 登录 -->
-        <div class="svg-wrap">
-          <div class="svg-item" @click="hOtherLogin('wechat')">
-            <svg-icon iconClass="wechat"></svg-icon>
-            <span class="svg-txt">微信登录</span>
-          </div>
-          <div class="svg-item" @click="hOtherLogin('QQ')">
-            <svg-icon iconClass="QQ"></svg-icon>
-            <span class="svg-txt">QQ登录</span>
-          </div>
-        </div>
-        <!-- 提示 -->
-        <p class="agreement">
-          温馨提示：
-          <br>
-          未注册的手机号，登录时将自动注册，且代表同意<a href="#">用户协议</a>、<a href="#">隐私策略</a>
-        </p>
-      </van-tab>
-      <van-tab title="注册">内容 2
-      </van-tab>
+      <van-tabs background="rgba(255, 255, 255m .8)" animated v-model="active">
+        <van-tab title="登录" name="login">
+          <!-- 登录表单 -->
+          <van-form ref="form">
+            <van-field
+              v-model="mobile"
+              maxlength="11"
+              clearable
+              name="手机号"
+              label="手机号"
+              placeholder="请输入手机号"
+            />
+            <van-field
+              v-model="code"
+              name="验证码"
+              label="验证码"
+              clearable
+              placeholder="验证码"
+            >
+              <!-- 按钮 - 发送验证码 -->
+              <van-button
+                v-if="showSendBtn"
+                slot="button"
+                type="primary"
+                size="mini"
+                :disabled="codeDisabled"
+                @click="hSendCode"
+              >发送验证码</van-button>
+              <!-- 按钮 - 已发送 -->
+              <van-button
+                v-else
+                slot="button"
+                type="primary"
+                size="small"
+                disabled
+              >已发送{{countdown}}s</van-button>
+            </van-field>
+            <div style="margin: 16px;">
+              <van-button round block type="info" @click="hLogin">登录</van-button>
+            </div>
+          </van-form>
+        </van-tab>
+        <!-- 注册 -->
+        <van-tab title="注册" name="register">
+          <van-form ref="form">
+            <van-field
+              v-model="register_mobile"
+              maxlength="11"
+              clearable
+              name="手机号"
+              label="手机号"
+              placeholder="请输入手机号"
+            />
+            <van-field
+              v-model="register_pwd"
+              name="密码"
+              label="密码"
+              clearable
+              placeholder="请输入密码"
+            />
+            <div style="margin: 19px 16px 18px;">
+              <van-button round block type="info" @click="hRegister">注册</van-button>
+            </div>
+          </van-form>
+        </van-tab>
     </van-tabs>
+    <!-- 分割线 -->
+      <van-divider :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }">其他登录方式</van-divider>
+      <!-- 微信 QQ 登录 -->
+      <div class="svg-wrap">
+        <div class="svg-item" @click="hOtherLogin('wechat')">
+          <svg-icon iconClass="wechat"></svg-icon>
+          <span class="svg-txt">微信登录</span>
+        </div>
+        <div class="svg-item" @click="hOtherLogin('QQ')">
+          <svg-icon iconClass="QQ"></svg-icon>
+          <span class="svg-txt">QQ登录</span>
+        </div>
+      </div>
+      <!-- 提示 -->
+      <p class="agreement">
+        温馨提示：
+        <br>
+        未注册的手机号，登录时将自动注册，且代表同意<a href="#">用户协议</a>、<a href="#">隐私策略</a>
+      </p>
     </div>
   </div>
 </template>
@@ -86,7 +107,7 @@ export default {
   computed: {
     // 验证手机号格式
     mobileValid () {
-      const value = this.mobile
+      const value = this.active === 'login' ? this.mobile : this.register_mobile
       if (value.length > 10) {
         return /^1[3-8]\d{9}$/.test(value)
       } else {
@@ -104,6 +125,9 @@ export default {
   },
   data () {
     return {
+      register_mobile: '', // 注册手机号
+      register_pwd: '', // 注册密码
+      active: 'login', // 登陆页 / 注册页
       pattern: /^1[3-8]\d{9}$/, // 手机号校验规则
       countdown: 60, // 发送验证码倒计时
       showSendBtn: true, // 控制 发送验证码(true) / 已发送(false) 的显示
@@ -112,6 +136,39 @@ export default {
     }
   },
   methods: {
+    // 注册
+    async hRegister () {
+      if (this.register_mobile.length < 1) {
+        Toast({
+          message: '手机号不能为空',
+          duration: 800
+        })
+        return
+      } else if (!this.mobileValid) {
+        Toast({
+          message: '请输入正确的手机号',
+          duration: 800
+        })
+        return
+      } else if (this.register_pwd.length < 6 || this.register_pwd.length > 12) {
+        Toast({
+          message: '密码长度为6-12位',
+          duration: 800
+        })
+        return
+      }
+
+      const res = await login(this.register_mobile, this.register_pwd)
+      // TODO: 保存用户信息
+      if (res.success_code === 200) {
+        this.$router.back()
+      } else {
+        Toast({
+          message: '登录失败',
+          duration: 1000
+        })
+      }
+    },
     // 第三方登陆
     hOtherLogin (type) {
       if (type === 'wechat') {
