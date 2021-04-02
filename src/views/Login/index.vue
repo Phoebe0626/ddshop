@@ -93,6 +93,7 @@
 <script>
 import { Tab, Tabs, Form, Button, Field, Dialog, Toast, Divider } from 'vant'
 import { getCode, login } from '@/api/login.js'
+import { mapMutations } from 'vuex'
 export default {
   components: {
     [Divider.name]: Divider,
@@ -136,6 +137,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['updateUserInfo']),
     // 注册
     async hRegister () {
       if (this.register_mobile.length < 1) {
@@ -159,8 +161,8 @@ export default {
       }
 
       const res = await login(this.register_mobile, this.register_pwd)
-      // TODO: 保存用户信息
       if (res.success_code === 200) {
+        this.updateUserInfo(res.data)
         this.$router.back()
       } else {
         Toast({
@@ -199,8 +201,7 @@ export default {
         return
       }
       const res = await login(this.mobile, this.code)
-      console.log(res)
-      // TODO:  保存用户信息
+      this.updateUserInfo(res.data)
       this.$router.back()
     },
     async hSendCode () {
