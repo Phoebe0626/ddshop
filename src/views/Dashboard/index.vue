@@ -2,7 +2,7 @@
   <div class="footer">
       <van-tabbar v-model="active" active-color="#3bba63">
         <van-tabbar-item name="home" icon="home-o" to='/dashboard/home'>首页</van-tabbar-item>
-        <van-tabbar-item name="cate" icon="apps-o" to="/dashboard/category">分类</van-tabbar-item>
+        <van-tabbar-item name="category" icon="apps-o" to="/dashboard/category">分类</van-tabbar-item>
         <van-tabbar-item name="eat" to="/dashboard/eat">
           <template #icon="props">
             <img :src="props.active ? eatIcon.active : eatIcon.default" />
@@ -29,7 +29,7 @@ export default {
         default: require('@/assets/images/tabbar/eat_default.png'),
         active: require('@/assets/images/tabbar/eat_selected.png')
       },
-      active: 'home'
+      active: this.$route.name
     }
   }
 }

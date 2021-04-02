@@ -14,8 +14,8 @@
               <img src="../../assets/images/my/default_avatar.jpg" style="width: 2rem; height: 2rem; border-radius: 50%;" alt="">
             </div>
             <div class="info">
-              <span>phoebe</span>
-              <span>手机号: 13800000000</span>
+              <span>{{userInfo.user_name}}</span>
+              <span>手机号: {{phone}}</span>
             </div>
           </div>
         </template>
@@ -59,6 +59,7 @@
 
 <script>
 import { NavBar, Cell, CellGroup, Icon, Grid, GridItem, Tag } from 'vant'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     [Tag.name]: Tag,
@@ -68,6 +69,13 @@ export default {
     [Cell.name]: Cell,
     [CellGroup.name]: CellGroup,
     [NavBar.name]: NavBar
+  },
+  computed: {
+    ...mapGetters(['userInfo']),
+    phone () {
+      const val = this.userInfo.phone
+      return val.substr(0, 3) + '****' + val.substr(7)
+    }
   }
 }
 </script>
