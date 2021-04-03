@@ -124,6 +124,9 @@ export default {
   filters: {
     // 返回 yyyy-mm-dd 格式的日期
     formatDate (time) {
+      if (!time) {
+        return '未填写'
+      }
       const date = new Date(time)
       const y = date.getFullYear()
       const m = addZero(date.getMonth() + 1)
