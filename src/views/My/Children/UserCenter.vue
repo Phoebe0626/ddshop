@@ -8,14 +8,16 @@
     />
     <!-- 个人资料 -->
     <van-cell-group style="margin-top: 0.2rem">
-      <van-cell is-link title="昵称" :value="userName" to="/dashboard/my/userCenter/changeName"></van-cell>
+      <van-cell is-link title="昵称" :value="userName" @click="$router.push('/dashboard/my/userCenter/changeName')"></van-cell>
       <van-cell is-link title="性别" :value="sex"></van-cell>
       <van-cell is-link title="生日" :value="userBirth ? userBirth : '未填写'"></van-cell>
       <van-cell title="手机号" :value="userPhone.substr(0, 3) + '****' + userPhone.substr(7)"></van-cell>
     </van-cell-group>
     <!-- 退出登录 -->
     <van-button size="large" style="margin-top: 0.4rem" type="default" block>退出登录</van-button>
-    <router-view></router-view>
+    <transition name="slideUpDown" mode="out-in">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
@@ -46,6 +48,14 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.slideUpDown-leave-active,
+.slideUpDown-enter-active {
+  transition: all 0.3s;
+}
+.slideUpDown-leave-active,
+.slideUpDown-enter {
+  transform: translateY(100%);
+}
 .user-center {
   position: fixed;
   top: 0;

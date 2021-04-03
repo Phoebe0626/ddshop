@@ -53,7 +53,9 @@
       </van-cell-group>
       <div class="version">当前版本 2.1.1</div>
     </div>
-    <router-view></router-view>
+    <transition name="slideLR" mode="out-in">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
@@ -125,4 +127,14 @@ export default {
 .mine-wrap {
   background-color: #f5f5f5;
 }
+
+.slideLR-leave-active,
+.slideLR-enter-active {
+  transition: all .3s;
+}
+.slideLR-leave-active,
+.slideLR-enter {
+  transform: translateX(100%);
+}
+
 </style>
