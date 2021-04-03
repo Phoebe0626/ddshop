@@ -139,14 +139,4 @@ export default {
   background-color: #f5f5f5;
 }
 
-// 添加动画效果
-.slideLR-leave-active,
-.slideLR-enter-active {
-  transition: all .3s;
-}
-.slideLR-leave-active,
-.slideLR-enter {
-  transform: translateX(100%);
-}
-
 </style>

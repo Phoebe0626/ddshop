@@ -149,14 +149,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.slideUpDown-leave-active,
-.slideUpDown-enter-active {
-  transition: all 0.3s;
-}
-.slideUpDown-leave-active,
-.slideUpDown-enter {
-  transform: translateY(100%);
-}
 .user-center {
   position: fixed;
   top: 0;
