@@ -34,9 +34,6 @@ export default {
     return {
       active: this.$route.params.type ? this.$route.params.type : 0
     }
-  },
-  created () {
-    console.log(this.$route)
   }
 }
 </script>

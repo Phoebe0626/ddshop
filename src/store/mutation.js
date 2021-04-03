@@ -1,4 +1,4 @@
-import { setLocalStore } from '../utils/storage'
+import { removeLocalStore, setLocalStore } from '../utils/storage'
 
 export default {
   // 更新个人信息
@@ -21,10 +21,33 @@ export default {
     state.userInfo.sex = sex
     setLocalStore('user-info', state.userInfo)
   },
+  // 退出登录
   logout (state) {
     state.userInfo = {}
     state.userBirth = ''
-    localStorage.removeItem('user-info')
-    localStorage.removeItem('user-birth')
+    state.userAddress = []
+    removeLocalStore('user-info')
+    removeLocalStore('user-birth')
+    removeLocalStore('user-address')
+  },
+  // 新增地址
+  addUserAddress (state, address) {
+    // if (address.isDefault) {
+    //   state.userAddress.forEach((item, i) => {
+    //     if (item.isDefault === true) {
+    //       state.userAddress[i].isDefault = false
+    //     }
+    //   })
+    // }
+    if (address.isDefault) {
+      // 只能存在一个默认地址
+      state.userAddress.some(function (currentVal, index) {
+        if (currentVal.isDefault) {
+          state.userAddress[index].isDefault = false
+        }
+      })
+    }
+    state.userAddress.push(address)
+    setLocalStore('user-address', state.userAddress)
   }
 }

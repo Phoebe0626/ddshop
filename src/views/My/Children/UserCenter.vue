@@ -97,7 +97,8 @@ export default {
     // 退出登录
     hLogout () {
       Dialog.confirm({
-        message: '确定要退出吗'
+        message: '确定要退出吗?',
+        confirmButtonColor: '#1989fa'
       }).then(() => {
         // 确定退出
         this.logout() // 清除用户信息
@@ -109,7 +110,6 @@ export default {
     },
     // 修改生日
     hSetUserBirth (val) {
-      console.log(val)
       this.date = val
       this.setUserBirth(val)
       this.showSelectDate = false

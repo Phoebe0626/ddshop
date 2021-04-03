@@ -7,24 +7,26 @@
     ></van-nav-bar>
     <van-address-list
       v-model="chosenAddressId"
-      :list="list"
-      :disabled-list="disabledList"
-      disabled-text="以下地址超出配送范围"
+      :list="userAddress"
       default-tag-text="默认"
       @add="hAdd"
       @edit="hEdit"
     />
-    <transition>
+    <transition name="slideUpDown" mode="out-in">
       <router-view class="router-view"/>
     </transition>
   </div>
 </template>
 <script>
 import { NavBar, AddressList } from 'vant'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     [AddressList.name]: AddressList,
     [NavBar.name]: NavBar
+  },
+  computed: {
+    ...mapGetters(['userAddress'])
   },
   data () {
     return {
