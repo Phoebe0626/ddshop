@@ -43,7 +43,7 @@
       <!-- 优惠券 + 收货地址 -->
       <van-cell-group style="margin-top: 0.2rem;">
         <van-cell is-link title="我的优惠券" icon="gold-coin" to="/dashboard/my/coupon"></van-cell>
-        <van-cell is-link title="我的收货地址" icon="todo-list"></van-cell>
+        <van-cell is-link title="我的收货地址" icon="todo-list" to="/dashboard/my/myAddress"></van-cell>
       </van-cell-group>
       <!-- 我的绿卡 -->
       <van-cell-group style="margin-top: 0.2rem;">

@@ -17,6 +17,9 @@ const UserCenter = () => import('../views/My/Children/UserCenter.vue')
 const ChangeName = () => import('../views/My/Children/ChangeName.vue')
 const MyOrder = () => import('../views/My/Children/MyOrder.vue')
 const Coupon = () => import('../views/My/Children/Coupon.vue')
+const MyAddress = () => import('../views/My/Children/Address/MyAddress.vue')
+const AddAddress = () => import('../views/My/Children/Address/AddAddress.vue')
+const EditAddress = () => import('../views/My/Children/Address/EditAddress.vue')
 // 登录页
 const Login = () => import('../views/Login')
 
@@ -69,6 +72,19 @@ const routes = [
         path: 'coupon',
         name: 'coupon',
         component: Coupon
+      }, {
+        path: 'myAddress',
+        name: 'myAddress',
+        component: MyAddress,
+        children: [{
+          path: 'addAddress',
+          name: 'addAddress',
+          component: AddAddress
+        }, {
+          path: 'editAddress',
+          name: 'editAddress',
+          component: EditAddress
+        }]
       }]
     }]
   }, {
@@ -82,7 +98,7 @@ const router = new VueRouter({
   routes
 })
 // 添加导航守卫
-const list = ['myOrder']
+const list = ['myOrder', 'coupon', 'myAddress']
 router.beforeEach((to, from, next) => {
   if (!store.getters.token && list.includes(to.name)) { // 进入 list 中的页面时，需要登录
     next('/login?redirect=' + from.path)
