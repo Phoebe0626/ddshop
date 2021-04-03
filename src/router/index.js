@@ -13,6 +13,7 @@ const My = () => import('../views/My')
 
 // My-Children
 const UserCenter = () => import('../views/My/Children/UserCenter.vue')
+const ChangeName = () => import('../views/My/Children/ChangeName.vue')
 // 登录页
 const Login = () => import('../views/Login')
 
@@ -51,7 +52,12 @@ const routes = [
       children: [{
         path: 'userCenter',
         name: 'userCenter',
-        component: UserCenter
+        component: UserCenter,
+        children: [{
+          path: 'changeName',
+          name: 'changeName',
+          component: ChangeName
+        }]
       }]
     }]
   }, {
