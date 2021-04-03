@@ -3,11 +3,10 @@
     <van-nav-bar
       title="我的"
       :border="false"
-      placeholder
     />
     <div class="mine-wrap">
       <!-- 顶部个人信息 -->
-      <van-cell id="user-wrap" title="单元格">
+      <van-cell id="user-wrap" title="单元格" to="/dashboard/my/userCenter">
         <template slot="title">
           <div class="user-wrap">
             <div class="avatar">
@@ -54,6 +53,7 @@
       </van-cell-group>
       <div class="version">当前版本 2.1.1</div>
     </div>
+    <router-view></router-view>
   </div>
 </template>
 

@@ -4,13 +4,15 @@ import Dashboard from '../views/Dashboard'
 
 Vue.use(VueRouter)
 
-// 路由懒加载
+// 路由懒加载 - 二级路由
 const Home = () => import('../views/Home')
 const Category = () => import('../views/Category')
 const Eat = () => import('../views/Eat')
 const Cart = () => import('../views/Cart')
 const My = () => import('../views/My')
 
+// My-Children
+const UserCenter = () => import('../views/My/Children/UserCenter.vue')
 // 登录页
 const Login = () => import('../views/Login')
 
@@ -45,9 +47,13 @@ const routes = [
     }, {
       path: 'my',
       name: 'my',
-      component: My
-    }
-    ]
+      component: My,
+      children: [{
+        path: 'userCenter',
+        name: 'userCenter',
+        component: UserCenter
+      }]
+    }]
   }, {
     path: '/login',
     name: 'login',
