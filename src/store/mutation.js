@@ -24,5 +24,7 @@ export default {
   logout (state) {
     state.userInfo = {}
     state.userBirth = ''
+    localStorage.removeItem('user-info')
+    localStorage.removeItem('user-birth')
   }
 }

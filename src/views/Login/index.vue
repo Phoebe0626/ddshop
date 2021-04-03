@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div class="form-wrap">
-      <van-icon class="cancel-btn" name="close" @click="$router.back()"/>
+      <van-icon class="cancel-btn" name="close" @click="$route.query.redirect ? $router.push($route.query.redirect) : $router.back()"/>
       <van-tabs background="rgba(255, 255, 255m .8)" animated v-model="active">
         <van-tab title="登录" name="login">
           <!-- 登录表单 -->
@@ -204,7 +204,8 @@ export default {
       }
       const res = await login(this.mobile, this.code)
       this.updateUserInfo(res.data)
-      this.$router.back()
+      console.log(this.$route)
+      this.$route.query.redirect ? this.$router.push(this.$route.query.redirect) : this.$router.back()
     },
     async hSendCode () {
       // 切换 发送验证码 / 已发送 的显示

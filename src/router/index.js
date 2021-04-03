@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Dashboard from '../views/Dashboard'
+import store from '../store'
 
 Vue.use(VueRouter)
 
@@ -69,6 +70,16 @@ const routes = [
 
 const router = new VueRouter({
   routes
+})
+// 添加导航守卫
+const list = ['changeName']
+router.beforeEach((to, from, next) => {
+  console.log(from)
+  if (!store.getters.token && list.includes(to.name)) { // 进入 list 中的页面时，需要登录
+    next('/login?redirect=' + from.path)
+  } else {
+    next()
+  }
 })
 
 export default router
