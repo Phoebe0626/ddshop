@@ -11,7 +11,7 @@
       <van-cell is-link title="昵称" :value="userName" @click="$router.push('/dashboard/my/userCenter/changeName')"></van-cell>
       <van-cell is-link title="性别" :value="sex" @click="showSelectSex = true"></van-cell>
       <van-cell is-link title="生日" :value="userBirth | formatDate" @click="showSelectDate = true"></van-cell>
-      <van-cell title="手机号" :value="userPhone.substr(0, 3) + '****' + userPhone.substr(7)"></van-cell>
+      <van-cell title="手机号" :value="userPhone ? userPhone.substr(0, 3) + '****' + userPhone.substr(7) : ''"></van-cell>
     </van-cell-group>
     <!-- 退出登录 -->
     <van-button size="large" style="margin-top: 0.4rem" type="default" block @click="hLogout">退出登录</van-button>
@@ -100,14 +100,11 @@ export default {
         message: '确定要退出吗'
       }).then(() => {
         // 确定退出
-        // console.log(1)
-        // this.logout() // 清除用户信息
-        // TODO: 完成未登录页面后 需要跳转到未登录UserCenter页面
-        // this.$router.push('/')
+        this.logout() // 清除用户信息
+        this.$router.back()
       })
         .catch(() => {
           // 取消
-          // console.log(2)
         })
     },
     // 修改生日

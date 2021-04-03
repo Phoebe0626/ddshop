@@ -6,16 +6,24 @@
     />
     <div class="mine-wrap">
       <!-- 顶部个人信息 -->
-      <van-cell id="user-wrap" title="单元格" to="/dashboard/my/userCenter">
+      <van-cell id="user-wrap" :to="token ? '/dashboard/my/userCenter' : '/login'">
         <template slot="title">
-          <div class="user-wrap">
+          <!-- 已登录的页面 -->
+          <div v-if="token" class="user-wrap">
             <div class="avatar">
               <img src="../../assets/images/my/default_avatar.jpg" style="width: 2rem; height: 2rem; border-radius: 50%;" alt="">
             </div>
             <div class="info">
-              <span>{{userInfo.user_name}}</span>
+              <span>{{userName}}</span>
               <span>手机号: {{phone}}</span>
             </div>
+          </div>
+          <!-- 未登录的页面 -->
+          <div v-else class="user-wrap">
+            <div class="avatar">
+              <img src="../../assets/images/my/default_avatar.jpg" style="width: 2rem; height: 2rem; border-radius: 50%;" alt="">
+            </div>
+            <span class="info">立即登录</span>
           </div>
         </template>
         <template slot="right-icon">
@@ -73,10 +81,13 @@ export default {
     [NavBar.name]: NavBar
   },
   computed: {
-    ...mapGetters(['userInfo']),
+    ...mapGetters(['userName', 'userPhone', 'token']),
     phone () {
-      const val = this.userInfo.phone
-      return val.substr(0, 3) + '****' + val.substr(7)
+      if (this.userPhone) {
+        return this.userPhone.substr(0, 3) + '****' + this.userPhone.substr(7)
+      } else {
+        return ''
+      }
     }
   }
 }
@@ -128,6 +139,7 @@ export default {
   background-color: #f5f5f5;
 }
 
+// 添加动画效果
 .slideLR-leave-active,
 .slideLR-enter-active {
   transition: all .3s;

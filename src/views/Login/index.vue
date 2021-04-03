@@ -1,6 +1,7 @@
 <template>
   <div class="login-container">
     <div class="form-wrap">
+      <van-icon class="cancel-btn" name="close" @click="$router.back()"/>
       <van-tabs background="rgba(255, 255, 255m .8)" animated v-model="active">
         <van-tab title="登录" name="login">
           <!-- 登录表单 -->
@@ -91,11 +92,12 @@
 </template>
 
 <script>
-import { Tab, Tabs, Form, Button, Field, Dialog, Toast, Divider } from 'vant'
+import { Tab, Tabs, Form, Button, Field, Dialog, Toast, Divider, Icon } from 'vant'
 import { getCode, login } from '@/api/login.js'
 import { mapMutations } from 'vuex'
 export default {
   components: {
+    [Icon.name]: Icon,
     [Divider.name]: Divider,
     [Toast.name]: Toast,
     [Dialog.name]: Dialog,
@@ -253,6 +255,7 @@ export default {
   }
 
   .form-wrap {
+    position: relative;
     width: 9.013rem;
     max-width: 90%;
     // height: 13.333rem;
@@ -261,6 +264,11 @@ export default {
     background-color: rgba(255, 255, 255, .8);
     box-sizing: border-box;
     border-radius: .25rem;
+    .cancel-btn {
+      position: absolute;
+      right: .4rem;
+      top: .4rem;
+    }
   }
 
   .svg-wrap {
