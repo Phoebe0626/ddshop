@@ -7,8 +7,18 @@ export default {
     setLocalStore('user-info', userInfo) // 将个人信息同步到本地
   },
   // 更新用户生日
-  updateUserBirth (state, birthday) {
+  setUserBirth (state, birthday) {
     state.userBirth = birthday
     setLocalStore('user-birth', birthday)
+  },
+  // 更新用户昵称
+  setUserName (state, userName) {
+    state.userInfo.user_name = userName
+    setLocalStore('user-info', state.userInfo)
+  },
+  // 更新用户用户性别
+  setUserSex (state, sex) {
+    state.userInfo.sex = sex
+    setLocalStore('user-info', state.userInfo)
   }
 }
