@@ -50,10 +50,11 @@
 </template>
 
 <script>
-import { NavBar, Cell, CellGroup, Button, ActionSheet, RadioGroup, Radio, Toast, DatetimePicker } from 'vant'
+import { NavBar, Cell, CellGroup, Button, ActionSheet, RadioGroup, Radio, Toast, DatetimePicker, Dialog } from 'vant'
 import { mapGetters, mapMutations } from 'vuex'
 export default {
   components: {
+    [Dialog.name]: Dialog,
     [DatetimePicker.name]: DatetimePicker,
     [Toast.name]: Toast,
     [RadioGroup.name]: RadioGroup,
@@ -95,9 +96,19 @@ export default {
     ...mapMutations(['setUserSex', 'setUserBirth', 'logout']),
     // 退出登录
     hLogout () {
-      this.logout() // 清除用户信息
-      // TODO: 完成未登录页面后 需要跳转到未登录UserCenter页面
-      this.$router.push('/')
+      Dialog.confirm({
+        message: '确定要退出吗'
+      }).then(() => {
+        // 确定退出
+        // console.log(1)
+        // this.logout() // 清除用户信息
+        // TODO: 完成未登录页面后 需要跳转到未登录UserCenter页面
+        // this.$router.push('/')
+      })
+        .catch(() => {
+          // 取消
+          // console.log(2)
+        })
     },
     // 修改生日
     hSetUserBirth (val) {
@@ -157,5 +168,19 @@ export default {
   bottom: 0;
   z-index: 999;
   background-color: #f5f5f5;
+}
+
+</style>
+
+<style>
+.van-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  height: 4rem;
+  transform: translate3d(0, 0, 0);
 }
 </style>
