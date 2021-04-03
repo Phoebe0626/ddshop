@@ -14,7 +14,7 @@
       <van-cell title="手机号" :value="userPhone.substr(0, 3) + '****' + userPhone.substr(7)"></van-cell>
     </van-cell-group>
     <!-- 退出登录 -->
-    <van-button size="large" style="margin-top: 0.4rem" type="default" block>退出登录</van-button>
+    <van-button size="large" style="margin-top: 0.4rem" type="default" block @click="hLogout">退出登录</van-button>
     <!-- 选择性别 -->
     <van-action-sheet v-model="showSelectSex">
       <van-radio-group v-model="sexRadio">
@@ -79,7 +79,7 @@ export default {
   },
   data () {
     return {
-      minDate: new Date('1960-01-01'),
+      minDate: new Date('1960-01-01'), // 日期选择器范围
       maxDate: new Date('2020-01-01'),
       showSelectDate: false, // 选择生日弹框
       date: new Date('1995-01-01'), // 生日
@@ -88,11 +88,18 @@ export default {
     }
   },
   created () {
-    this.sexRadio = this.userSex
-    this.date = this.userBirth ? this.userBirth : new Date('1995-01-01')
+    this.sexRadio = this.userSex // 获取用户性别
+    this.date = this.userBirth ? this.userBirth : new Date('1995-01-01') // 获取用户生日
   },
   methods: {
-    ...mapMutations(['setUserSex', 'setUserBirth']),
+    ...mapMutations(['setUserSex', 'setUserBirth', 'logout']),
+    // 退出登录
+    hLogout () {
+      this.logout() // 清除用户信息
+      // TODO: 完成未登录页面后 需要跳转到未登录UserCenter页面
+      this.$router.push('/')
+    },
+    // 修改生日
     hSetUserBirth (val) {
       console.log(val)
       this.date = val
@@ -103,6 +110,7 @@ export default {
         duration: 800
       })
     },
+    // 修改性别
     hSetUserSex (sex) {
       this.sexRadio = sex
       this.setUserSex(sex)
@@ -114,6 +122,7 @@ export default {
     }
   },
   filters: {
+    // 返回 yyyy-mm-dd 格式的日期
     formatDate (time) {
       const date = new Date(time)
       const y = date.getFullYear()

@@ -20,5 +20,9 @@ export default {
   setUserSex (state, sex) {
     state.userInfo.sex = sex
     setLocalStore('user-info', state.userInfo)
+  },
+  logout (state) {
+    state.userInfo = {}
+    state.userBirth = ''
   }
 }
