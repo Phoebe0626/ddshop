@@ -16,6 +16,7 @@ const My = () => import('../views/My')
 const UserCenter = () => import('../views/My/Children/UserCenter.vue')
 const ChangeName = () => import('../views/My/Children/ChangeName.vue')
 const MyOrder = () => import('../views/My/Children/MyOrder.vue')
+const Coupon = () => import('../views/My/Children/Coupon.vue')
 // 登录页
 const Login = () => import('../views/Login')
 
@@ -64,6 +65,10 @@ const routes = [
         path: 'myOrder',
         name: 'myOrder',
         component: MyOrder
+      }, {
+        path: 'coupon',
+        name: 'coupon',
+        component: Coupon
       }]
     }]
   }, {
