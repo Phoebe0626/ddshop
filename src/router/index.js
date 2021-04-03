@@ -15,6 +15,7 @@ const My = () => import('../views/My')
 // My-Children
 const UserCenter = () => import('../views/My/Children/UserCenter.vue')
 const ChangeName = () => import('../views/My/Children/ChangeName.vue')
+const MyOrder = () => import('../views/My/Children/MyOrder.vue')
 // 登录页
 const Login = () => import('../views/Login')
 
@@ -59,6 +60,10 @@ const routes = [
           name: 'changeName',
           component: ChangeName
         }]
+      }, {
+        path: 'myOrder',
+        name: 'myOrder',
+        component: MyOrder
       }]
     }]
   }, {
@@ -72,9 +77,8 @@ const router = new VueRouter({
   routes
 })
 // 添加导航守卫
-const list = ['changeName']
+const list = ['myOrder']
 router.beforeEach((to, from, next) => {
-  console.log(from)
   if (!store.getters.token && list.includes(to.name)) { // 进入 list 中的页面时，需要登录
     next('/login?redirect=' + from.path)
   } else {

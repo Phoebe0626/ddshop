@@ -31,14 +31,14 @@
         </template>
       </van-cell>
       <!-- 我的订单 -->
-      <van-cell title="我的订单" icon="label"  is-link value="查看全部订单">
+      <van-cell title="我的订单" icon="label"  is-link value="查看全部订单" to="/dashboard/my/myOrder">
       </van-cell>
       <!-- 订单宫格 -->
       <van-grid :border="false">
-        <van-grid-item icon="cart-circle-o" text="待支付" />
-        <van-grid-item icon="gift-o" text="待收货" />
-        <van-grid-item icon="smile-comment-o" text="待评价" />
-        <van-grid-item icon="cash-back-record" text="售后/退款" />
+        <van-grid-item icon="cart-circle-o" text="待支付" @click="$router.push({ name: 'myOrder', params: { type: '1' } })" />
+        <van-grid-item icon="gift-o" text="待收货" @click="$router.push({ name: 'myOrder', params: { type: '2' } })"/>
+        <van-grid-item icon="smile-comment-o" text="待评价" @click="$router.push({ name: 'myOrder', params: { type: '3' } })" />
+        <van-grid-item icon="cash-back-record" text="售后/退款" @click="$toast({ message: '暂未实现', duration: 800 })"/>
       </van-grid>
       <!-- 优惠券 + 收货地址 -->
       <van-cell-group style="margin-top: 0.2rem;">
@@ -62,16 +62,17 @@
       <div class="version">当前版本 2.1.1</div>
     </div>
     <transition name="slideLR" mode="out-in">
-      <router-view></router-view>
+      <router-view class="router-view"></router-view>
     </transition>
   </div>
 </template>
 
 <script>
-import { NavBar, Cell, CellGroup, Icon, Grid, GridItem, Tag } from 'vant'
+import { NavBar, Cell, CellGroup, Icon, Grid, GridItem, Tag, Toast } from 'vant'
 import { mapGetters } from 'vuex'
 export default {
   components: {
+    [Toast.name]: Toast,
     [Tag.name]: Tag,
     [Grid.name]: Grid,
     [GridItem.name]: GridItem,
@@ -139,4 +140,13 @@ export default {
   background-color: #f5f5f5;
 }
 
+.router-view {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 999;
+  background-color: #f5f5f5;
+}
 </style>
