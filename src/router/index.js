@@ -101,8 +101,11 @@ const router = new VueRouter({
 const list = ['userCenter', 'myOrder', 'coupon', 'myAddress']
 router.beforeEach((to, from, next) => {
   if (!store.getters.token && list.includes(to.name)) { // 进入 list 中的页面时，需要登录
-    // next('/login?redirect=' + to.fullPath) // 报错： Redirected when going from "xxx" to "xxx" via a navigation guard."
-    router.push('/login?redirect=' + to.path)
+    // next({
+    //   name: 'login',
+    //   query: { replace: to.fullPath },
+    // }) // 报错： Redirected when going from "xxx" to "xxx" via a navigation guard."
+    router.push({ name: 'login', query: { redirect: to.fullPath } })
   } else {
     next()
   }

@@ -8,7 +8,6 @@
     <!-- 添加地址 -->
     <van-address-edit
       :area-list="area"
-      show-postal
       show-set-default
       show-search-result
       :area-columns-placeholder="['请选择', '请选择', '请选择']"
@@ -40,12 +39,13 @@ export default {
     hSave (content) {
       const address = content.province + content.city + content.county + content.addressDetail
       const id = this.userAddress.length
-      this.addUserAddress({ ...content, address, id })
+      const obj = {
+        address: { ...content, address, id },
+        type: 'add'
+      }
+      this.addUserAddress(obj)
       this.$router.back()
     }
-  },
-  created () {
-    console.log(this.userAddress === true)
   }
 }
 </script>

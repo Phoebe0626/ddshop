@@ -5,10 +5,12 @@
       left-arrow
       @click-left="$router.back()"
     ></van-nav-bar>
+    <!-- 没有地址列表时展示图片 -->
     <div v-if="!userAddress.length" class="no-address-img">
       <img class="img" src="@/assets/images/my/noAddress.png" alt="">
       <span class="text">还没有添加过地址呢，添加一个吧~</span>
     </div>
+    <!-- 地址列表 -->
     <van-address-list
       v-model="chosenAddressId"
       :list="userAddress"

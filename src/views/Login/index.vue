@@ -165,7 +165,7 @@ export default {
       const res = await login(this.register_mobile, this.register_pwd)
       if (res.success_code === 200) {
         this.updateUserInfo(res.data)
-        this.$router.back()
+        this.$route.query.redirect ? this.$router.replace(this.$route.query.redirect) : this.$router.back()
       } else {
         Toast({
           message: '登录失败',
@@ -204,8 +204,7 @@ export default {
       }
       const res = await login(this.mobile, this.code)
       this.updateUserInfo(res.data)
-      console.log(this.$route)
-      this.$route.query.redirect ? this.$router.push(this.$route.query.redirect) : this.$router.back()
+      this.$route.query.redirect ? this.$router.replace(this.$route.query.redirect) : this.$router.back()
     },
     async hSendCode () {
       // 切换 发送验证码 / 已发送 的显示
