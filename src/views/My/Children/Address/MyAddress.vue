@@ -27,17 +27,32 @@
 import { NavBar, AddressList } from 'vant'
 import { mapGetters } from 'vuex'
 export default {
+  name: 'MyAddress',
   components: {
     [AddressList.name]: AddressList,
     [NavBar.name]: NavBar
   },
   computed: {
-    ...mapGetters(['userAddress'])
+    ...mapGetters(['userAddress']),
+    // 默认地址为选中状态
+    chosenId () {
+      let id
+      this.userAddress.forEach(item => {
+        if (item.isDefault) {
+          id = item.id
+        }
+      })
+      return id || 0
+    }
   },
   data () {
     return {
-      chosenAddressId: 1
+      chosenAddressId: 0
     }
+  },
+  mounted () {
+    this.chosenAddressId = this.chosenId
+    console.log(1)
   },
   methods: {
     // 新增地址
@@ -47,6 +62,17 @@ export default {
     // 编辑地址
     hEdit (item, index) {
       this.$router.push({ name: 'editAddress', params: { address: item } })
+    }
+  },
+  watch: {
+    // 监听路由地址变化
+    $route () {
+      // 修改当前选中地址为默认地址
+      this.userAddress.forEach(item => {
+        if (item.isDefault) {
+          this.chosenAddressId = item.id
+        }
+      })
     }
   }
 }

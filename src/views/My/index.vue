@@ -71,6 +71,7 @@
 import { NavBar, Cell, CellGroup, Icon, Grid, GridItem, Tag, Toast } from 'vant'
 import { mapGetters } from 'vuex'
 export default {
+  name: 'My',
   components: {
     [Toast.name]: Toast,
     [Tag.name]: Tag,

@@ -18,11 +18,13 @@
 </template>
 
 <script>
-import { AddressEdit, NavBar } from 'vant'
+import { AddressEdit, NavBar, Toast } from 'vant'
 import { areaList } from '@/utils/arealist.js'
 import { mapMutations } from 'vuex'
 export default {
+  name: 'EditAddress',
   components: {
+    [Toast.name]: Toast,
     [NavBar.name]: NavBar,
     [AddressEdit.name]: AddressEdit
   },
@@ -32,7 +34,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['addUserAddress']),
+    ...mapMutations(['addUserAddress', 'removeUserAddress']),
     // 保存地址
     hSave (content) {
       const obj = {
@@ -40,9 +42,38 @@ export default {
         type: 'edit'
       }
       this.addUserAddress(obj)
+      this.$toast({
+        message: '保存成功',
+        duration: 800
+      })
+      this.$router.back()
     },
     // 删除地址
-    hDelete () {}
+    hDelete () {
+      this.removeUserAddress(this.$route.params.address.id)
+      this.$toast({
+        message: '删除成功',
+        duration: 800
+      })
+      this.$router.back()
+    }
   }
 }
 </script>
+
+<style>
+.van-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  height: 3.2rem;
+  transform: translate3d(0, 0, 0);
+}
+
+.van-dialog__confirm {
+  color: #1989fa;
+}
+</style>

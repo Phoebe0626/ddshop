@@ -30,35 +30,36 @@ export default {
     removeLocalStore('user-birth')
     removeLocalStore('user-address')
   },
-  // 新增地址
+  // 新增和编辑地址
   addUserAddress (state, obj) {
-    // if (address.isDefault) {
-    //   state.userAddress.forEach((item, i) => {
-    //     if (item.isDefault === true) {
-    //       state.userAddress[i].isDefault = false
-    //     }
-    //   })
-    // }
     if (obj.address.isDefault) {
       // 只能存在一个默认地址
       state.userAddress.some(function (currentVal, index) {
-        if (currentVal.isDefault) {
+        if (currentVal.isDefault && currentVal.id !== obj.address.id) { // 如果是同一个对象 不需要重新设置 isDefault
           state.userAddress[index].isDefault = false
-          console.log('删除原默认地址')
         }
       })
     }
-    if (obj.type === 'add') {
+
+    if (obj.type === 'add') { // 新增地址
       state.userAddress.push(obj.address)
       console.log('add', state.userAddress)
-    } else {
+    } else { // 编辑地址
       state.userAddress.forEach((item, i) => {
         if (item.id === obj.address.id) {
-          state.userAddress[i] = obj.address
+          state.userAddress[i] = obj.address // 找到原地址进行替换
         }
       })
-      console.log('edit', state.userAddress)
     }
+    setLocalStore('user-address', state.userAddress)
+  },
+  // 删除地址
+  removeUserAddress (state, id) {
+    state.userAddress.forEach((item, i) => {
+      if (item.id === id) {
+        state.userAddress.splice(i, 1)
+      }
+    })
     setLocalStore('user-address', state.userAddress)
   }
 }

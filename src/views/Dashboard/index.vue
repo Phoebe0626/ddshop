@@ -12,13 +12,17 @@
         <van-tabbar-item name="cart" icon="setting-o" to="/dashboard/cart">购物车</van-tabbar-item>
         <van-tabbar-item name="my" icon="setting-o" to="/dashboard/my">我的</van-tabbar-item>
       </van-tabbar>
-      <router-view />
+      <keep-alive>
+        <router-view v-if="$route.meta.keepAlive"/>
+      </keep-alive>
+        <router-view v-if="!$route.meta.keepAlive"></router-view>
     </div>
 </template>
 
 <script>
 import { Tabbar, TabbarItem } from 'vant'
 export default {
+  name: 'Dasboard',
   components: {
     [Tabbar.name]: Tabbar,
     [TabbarItem.name]: TabbarItem

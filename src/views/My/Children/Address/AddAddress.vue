@@ -17,11 +17,13 @@
 </template>
 
 <script>
-import { NavBar, AddressEdit } from 'vant'
+import { NavBar, AddressEdit, Toast } from 'vant'
 import { areaList } from '@/utils/arealist'
 import { mapMutations, mapGetters } from 'vuex'
 export default {
+  name: 'AddAddress',
   components: {
+    [Toast.name]: Toast,
     [AddressEdit.name]: AddressEdit,
     [NavBar.name]: NavBar
   },
@@ -44,6 +46,7 @@ export default {
         type: 'add'
       }
       this.addUserAddress(obj)
+      this.$toast('添加成功')
       this.$router.back()
     }
   }

@@ -26,31 +26,49 @@ const Login = () => import('../views/Login')
 const routes = [
   {
     path: '/',
-    redirect: '/dashboard'
+    redirect: '/dashboard',
+    meta: {
+      keepAlive: true
+    }
   },
   {
     path: '/dashboard',
     name: 'dashboard',
     component: Dashboard,
+    meta: {
+      keepAlive: true
+    },
     children: [{
       path: '/dashboard',
       redirect: '/dashboard/home'
     }, {
       path: 'home',
       name: 'home',
-      component: Home
+      component: Home,
+      meta: {
+        keepAlive: true
+      }
     }, {
       path: 'category',
       name: 'category',
-      component: Category
+      component: Category,
+      meta: {
+        keepAlive: true
+      }
     }, {
       path: 'eat',
       name: 'eat',
-      component: Eat
+      component: Eat,
+      meta: {
+        keepAlive: true
+      }
     }, {
       path: 'cart',
       name: 'cart',
-      component: Cart
+      component: Cart,
+      meta: {
+        keepAlive: true
+      }
     }, {
       path: 'my',
       name: 'my',
