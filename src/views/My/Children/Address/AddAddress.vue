@@ -20,11 +20,14 @@
 <script>
 import { NavBar, AddressEdit } from 'vant'
 import { areaList } from '@/utils/arealist'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 export default {
   components: {
     [AddressEdit.name]: AddressEdit,
     [NavBar.name]: NavBar
+  },
+  computed: {
+    ...mapGetters(['userAddress'])
   },
   data () {
     return {
@@ -35,9 +38,14 @@ export default {
     ...mapMutations(['addUserAddress']),
     // 保存地址
     hSave (content) {
-      this.addUserAddress({ ...content, address: content.province + content.city + content.county + content.addressDetail })
+      const address = content.province + content.city + content.county + content.addressDetail
+      const id = this.userAddress.length
+      this.addUserAddress({ ...content, address, id })
       this.$router.back()
     }
+  },
+  created () {
+    console.log(this.userAddress === true)
   }
 }
 </script>

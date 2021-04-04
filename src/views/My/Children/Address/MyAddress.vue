@@ -1,10 +1,14 @@
 <template>
-  <div class="address-container">
+  <div id="address-container">
     <van-nav-bar
       title="我的地址"
       left-arrow
       @click-left="$router.back()"
     ></van-nav-bar>
+    <div v-if="!userAddress.length" class="no-address-img">
+      <img class="img" src="@/assets/images/my/noAddress.png" alt="">
+      <span class="text">还没有添加过地址呢，添加一个吧~</span>
+    </div>
     <van-address-list
       v-model="chosenAddressId"
       :list="userAddress"
@@ -30,30 +34,7 @@ export default {
   },
   data () {
     return {
-      chosenAddressId: 1,
-      list: [
-        {
-          id: '1',
-          name: '张三',
-          tel: '13000000000',
-          address: '浙江省杭州市西湖区文三路 138 号东方通信大厦 7 楼 501 室',
-          isDefault: true
-        },
-        {
-          id: '2',
-          name: '李四',
-          tel: '1310000000',
-          address: '浙江省杭州市拱墅区莫干山路 50 号'
-        }
-      ],
-      disabledList: [
-        {
-          id: '3',
-          name: '王五',
-          tel: '1320000000',
-          address: '浙江省杭州市滨江区江南大道 15 号'
-        }
-      ]
+      chosenAddressId: 1
     }
   },
   methods: {
@@ -70,6 +51,27 @@ export default {
 </script>
 
 <style lang="less" scoped>
+#address-container {
+  background-color: #fff;
+  // 没有地址列表时显示的图片
+  .no-address-img {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: -1.2rem; // 减掉导航栏的高度
+    .img {
+      width: 4rem;
+      height: 2.667rem;
+    }
+    .text {
+      font-size: .32rem;
+      color: grey;
+    }
+  }
+}
+
 .router-view {
   position: fixed;
   top: 0;

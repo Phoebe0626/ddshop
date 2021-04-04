@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div class="form-wrap">
-      <van-icon class="cancel-btn" name="close" @click="$route.query.redirect ? $router.push($route.query.redirect) : $router.back()"/>
+      <van-icon class="cancel-btn" name="close" @click="$router.back()"/>
       <van-tabs background="rgba(255, 255, 255m .8)" animated v-model="active">
         <van-tab title="登录" name="login">
           <!-- 登录表单 -->
