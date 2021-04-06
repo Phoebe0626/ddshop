@@ -14,8 +14,10 @@
       </van-tabbar>
       <keep-alive>
         <router-view v-if="$route.meta.keepAlive"/>
+        <div style="height: 1.33rem;"></div>
       </keep-alive>
         <router-view v-if="!$route.meta.keepAlive"></router-view>
+        <div style="height: 1.33rem;"></div>
     </div>
 </template>
 

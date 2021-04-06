@@ -1,5 +1,7 @@
 <template>
   <div class="home-container">
+  <skelemon v-if="isShowSkelemon" />
+  <div v-else>
     <!-- 头部地址 搜索 + 轮播图 -->
     <div class="header-wrap">
       <!-- 头部搜索框 -->
@@ -17,6 +19,7 @@
       </div>
       <!-- 轮播图 -->
       <van-swipe
+        id="my-swipe"
         class="my-swipe"
         :autoplay="3000"
         indicator-color="white"
@@ -26,9 +29,21 @@
         </van-swipe-item>
       </van-swipe>
       <!-- 广告条绿色字 -->
-      <van-image :src="greenText"></van-image>
+      <div class="green-text">
+        <div class="item">
+          <i class="iconfont">&#xe743;</i>
+          <span class="green-txt">最快29分钟送达</span>
+        </div>
+        <div class="item">
+          <i class="iconfont">&#xe7eb;</i>
+          <span class="green-txt">0元起送 0配送费</span>
+        </div>
+        <div class="item">
+          <i class="iconfont">&#xe9ca;</i>
+          <span class="green-txt">安心退</span>
+        </div>
+      </div>
     </div>
-    <!-- 广告 -->
     <!-- 广告图片 -->
       <van-image :src="homeAd"></van-image>
     <!-- 商品分类 Grid -->
@@ -40,15 +55,40 @@
         :text="item.name"
       />
     </van-grid>
+    <!-- 开通会员 -->
+    <div class="vip">
+      <div class="left">
+        <svg-icon class="vip-icon" iconClass="vip"></svg-icon>
+        <span>加入会员·每年预计节省806元</span>
+      </div>
+      <div class="right">5折开卡></div>
+    </div>
+    <!-- 限时抢购 -->
+    <div class="flash-sale">
+      <div class="title">
+       <div class="left">
+         <span>限时抢购</span>
+         <div class="time">
+           <div class="time-item">1</div>
+           <div class="time-item">56</div>
+           <div class="time-item">24</div>
+
+         </div>
+        </div>
+      </div>
+    </div>
+  </div>
   </div>
 </template>
 
 <script>
 import { Icon, Swipe, SwipeItem, Image, Grid, GridItem } from 'vant'
 import { getHomeData } from '../../api/home'
+import Skelemon from './components/Skeleton.vue'
 export default {
   name: 'Home',
   components: {
+    Skelemon,
     [Grid.name]: Grid,
     [GridItem.name]: GridItem,
     [Image.name]: Image,
@@ -58,6 +98,7 @@ export default {
   },
   data () {
     return {
+      isShowSkelemon: true, // 是否显示骨架屏
       itemCate: [], // 商品分类
       homeAd: '', // 广告图连接
       greenText: '', // 绿色字连接
@@ -85,17 +126,34 @@ export default {
       this.itemCate = res.data.list.filter(item => {
         return item.type === 0
       })[0].icon_list
-      console.log(this.itemCate)
+      this.isShowSkelemon = false // 显示内容
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
+@font-face {
+  font-family: 'iconfont';  /* project id 2467864 */
+  src: url('//at.alicdn.com/t/font_2467864_e941dxyy2e9.eot');
+  src: url('//at.alicdn.com/t/font_2467864_e941dxyy2e9.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_2467864_e941dxyy2e9.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_2467864_e941dxyy2e9.woff') format('woff'),
+  url('//at.alicdn.com/t/font_2467864_e941dxyy2e9.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_2467864_e941dxyy2e9.svg#iconfont') format('svg');
+}
+.iconfont{
+    font-family:"iconfont" !important;
+    font-size:16px;font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;}
 .home-container {
   // 头部 （位置 搜索 + 轮播图
   .header-wrap {
     padding: .267rem .267rem 0;
+    background: url('../../assets/images/home/bg1.jpg') no-repeat;
+    background-size: cover;
     .header {
       display: flex;
       justify-content: space-between;
@@ -131,8 +189,38 @@ export default {
         }
       }
     }
+    // 绿色字
+    .green-text {
+      display: flex;
+      justify-content: space-between;
+      padding: .2rem 0;
+      color: green;
+      font-size: .32rem;
+      .iconfont {
+        margin-right: .107rem;
+      }
+    }
+  }
+  // 开通会员
+  .vip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: .267rem;
+    padding: 0 .3rem;
+    height: .907rem;
+    border-radius: .133rem;
+    color: #fff;
+    background-color: #4fc173;
+    font-size: .32rem;
+    .vip-icon {
+      width: 1em;
+      height: 1em;
+      margin-right: .133rem;
+    }
   }
 }
+
 </style>
 
 <style>
