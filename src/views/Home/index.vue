@@ -69,12 +69,13 @@
        <div class="left">
          <span>限时抢购</span>
          <div class="time">
-           <div class="time-item">1</div>
-           <div class="time-item">56</div>
-           <div class="time-item">24</div>
+           <div class="time-item">{{ (time.h &lt; 10) ? ('0' + time.h) : time.h }}</div>
+           <div class="time-item">{{ (time.m &lt; 10) ? ('0' + time.m) : time.m }}</div>
+           <div class="time-item">{{ (time.s &lt; 10) ? ('0' + time.s) : time.s }}</div>
 
          </div>
         </div>
+        <div class="right">更多</div>
       </div>
     </div>
   </div>
@@ -98,6 +99,11 @@ export default {
   },
   data () {
     return {
+      time: { // 限时抢购倒计时
+        h: 2,
+        m: 0,
+        s: 0
+      },
       isShowSkelemon: true, // 是否显示骨架屏
       itemCate: [], // 商品分类
       homeAd: '', // 广告图连接
@@ -108,8 +114,25 @@ export default {
   created () {
     // 加载首页需要的数据
     this.loadHomeData()
+    this.startTimer()
   },
   methods: {
+    startTimer () {
+      const t = setInterval(() => {
+        if (this.time.s === 0 && this.time.m !== 0) {
+          this.time.s = 59
+          this.time.m--
+        } else if (this.time.s === 0 && this.time.m === 0 && this.time.h !== 0) {
+          this.time.h--
+          this.time.m = 59
+          this.time.s = 59
+        } else if (this.time.s === 0 && this.time.m === 0 && this.time.h === 0) {
+          clearInterval(t)
+        } else {
+          this.time.s--
+        }
+      }, 1000)
+    },
     // 获取首页需要的数据
     async loadHomeData () {
       const res = await getHomeData()
@@ -133,6 +156,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+// 引入 iconfont
 @font-face {
   font-family: 'iconfont';  /* project id 2467864 */
   src: url('//at.alicdn.com/t/font_2467864_e941dxyy2e9.eot');
@@ -217,6 +241,40 @@ export default {
       width: 1em;
       height: 1em;
       margin-right: .133rem;
+    }
+  }
+
+  // 限时抢购
+  .flash-sale {
+    padding: 0 .267rem;
+    margin-top: .533rem;
+    .title {
+      border-left: .133rem solid #3cb963;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .left {
+        display: flex;
+        margin-left: .133rem;
+        font-size: .48rem;
+        .time {
+          display: flex;
+          .time-item {
+            width: .533rem;
+            height: .533rem;
+            line-height: .533rem;
+            background-color: #222;
+            color: #fff;
+            margin-left: .133rem;
+            font-size: .373rem;
+            text-align: center;
+          }
+        }
+      }
+      .right {
+        font-size: .32rem;
+        color: #3cb963;
+      }
     }
   }
 }
