@@ -215,7 +215,12 @@ export default {
         const li = document.querySelectorAll('.goods-item')
         const ul = document.querySelector('.goods')
         ul.style.width = li[0].clientWidth * li.length + 'px' // 给 ul 设置宽度
-        if (!this.scroll) { this.scroll = new Bscroll(this.$refs.wrapper, { scrollX: true }) }
+        if (!this.scroll) {
+          this.scroll = new Bscroll(this.$refs.wrapper, {
+            scrollX: true,
+            eventPassthrough: 'vertical'
+          })
+        }
       })
     })
   },
