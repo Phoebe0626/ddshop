@@ -94,18 +94,91 @@
         </ul>
       </div>
     </div>
+    <!-- 特色专区 -->
+    <div class="special">
+      <div class="header">特色专区</div>
+      <div class="goods">
+        <!-- 新品尝鲜 -->
+        <div class="newItem">
+          <div class="title">{{ specialZone.newItemList[0].title }}</div>
+          <div class="subtitle">{{ specialZone.newItemList[0].subtitle }}</div>
+          <img class="image" :src="specialZone.newItemList[0].imageOne" alt="">
+          <img class="image" :src="specialZone.newItemList[0].imageTwo" alt="">
+        </div>
+        <!-- 十二月爆款 -->
+        <div class="hotItem">
+          <div class="title">{{ specialZone.hotItemList[0].title }}</div>
+          <div class="subtitle">{{ specialZone.hotItemList[0].subtitle }}</div>
+          <img class="image" :src="specialZone.hotItemList[0].imageOne" alt="">
+          <img class="image" :src="specialZone.hotItemList[0].imageTwo" alt="">
+        </div>
+          <!-- VIP 专享 -->
+        <div class="vipItem">
+          <div class="title">{{ specialZone.vipItemList[0].title }}</div>
+          <div class="subtitle">{{ specialZone.vipItemList[0].subtitle }}</div>
+          <img class="image" :src="specialZone.vipItemList[0].imageOne" alt="">
+          <img class="image" :src="specialZone.vipItemList[0].imageTwo" alt="">
+        </div>
+        <!-- 吃什么 -->
+        <div class="otherItem">
+          <div class="title">{{ specialZone.otherItemList[0].title }}</div>
+          <div class="subtitle">{{ specialZone.otherItemList[0].subtitle }}</div>
+          <img class="image" src="../../assets/images/home/peanut.jpeg" alt="">
+        </div>
+        <!-- 平价菜场 -->
+        <div class="lowPrice">
+          <div class="title">{{ specialZone.lowPriceItemList[0].title }}</div>
+          <div class="subtitle">{{ specialZone.lowPriceItemList[0].subtitle }}</div>
+          <img class="image" :src="specialZone.lowPriceItemList[0].image" alt="">
+        </div>
+      </div>
+
+    </div>
+    <!-- 商品 -->
+    <div class="tab">
+      <van-tabs swipeable sticky>
+        <van-tab title="全部">
+          <div class="wrapper">
+            <div class="item" v-for="(item, index) in allList" :key="index">
+              <div class="image">
+                <van-image lazy-load :src="item.small_image"></van-image>
+              </div>
+              <div class="name">{{ item.name }}</div>
+              <div class="intro">{{ item.spec }}</div>
+              <div class="buy">
+                <div class="price">
+                  <span class="cur-price">￥{{ item.price }}</span>
+                  <span class="ori-price">￥{{ item.origin_price }}</span>
+                </div>
+                <van-icon class="icon-cart" name="cart-o" />
+              </div>
+            </div>
+          </div>
+        </van-tab>
+        <van-tab title="晚餐">1</van-tab>
+        <van-tab title="人气">1</van-tab>
+        <van-tab title="心选">1</van-tab>
+      </van-tabs>
+    </div>
+    <div class="divider">
+      <van-divider>没有更多了</van-divider>
+    </div>
   </div>
   </div>
 </template>
 
 <script>
-import { Icon, Swipe, SwipeItem, Image, Grid, GridItem } from 'vant'
+import { Icon, Swipe, SwipeItem, Image, Grid, GridItem, Tab, Tabs, Lazyload, Divider } from 'vant'
 import { getHomeData } from '../../api/home'
 import Skelemon from './components/Skeleton.vue'
 import Bscroll from 'better-scroll'
 export default {
   name: 'Home',
   components: {
+    [Divider.name]: Divider,
+    [Lazyload.name]: Lazyload,
+    [Tab.name]: Tab,
+    [Tabs.name]: Tabs,
     Skelemon,
     [Grid.name]: Grid,
     [GridItem.name]: GridItem,
@@ -116,7 +189,9 @@ export default {
   },
   data () {
     return {
-      flashGoods: [],
+      allList: [], // tab - 全部
+      specialZone: [], // 特色专区
+      flashGoods: [], // 限时抢购
       time: { // 限时抢购倒计时
         h: 2,
         m: 0,
@@ -183,7 +258,11 @@ export default {
       this.flashGoods = res.data.list.filter(item => {
         return item.type === 3
       })[0].product_list
-      console.log(this.flashGoods)
+      this.specialZone = res.data.special_zone
+      this.allList = res.data.list.filter(item => {
+        return item.type === 13
+      })[0].product_list
+      console.log(this.allList)
     }
   }
 }
@@ -359,6 +438,154 @@ export default {
         }
       }
     }
+  }
+
+  // 特色专区
+  .special {
+    padding: 0 .267rem;
+    margin-top: .533rem;
+    .header {
+      border-left: .133rem solid #3cb963;
+      padding-left: .133rem;
+      font-size: .48rem;
+    }
+    .goods {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: .4rem;
+      border: .027rem solid #dddbc0;
+      font-size: .32rem;
+      .subtitle {
+        color: #808080;
+      }
+      .image {
+        width: 1.467rem;
+        padding: 0 .267rem;
+      }
+
+      .newItem {
+        box-sizing: border-box;
+        width: 50%;
+        height: 2.347rem;
+        padding: .08rem .133rem;
+        border-right: .027rem solid #dddbc0;
+        border-bottom: .027rem solid #dddbc0;
+        overflow: hidden;
+        .title {
+          color: #ff7400;
+        }
+      }
+      .hotItem {
+        box-sizing: border-box;
+        width: 50%;
+        height: 2.347rem;
+        padding: .08rem .133rem;
+        border-bottom: .027rem solid #dddbc0;
+        overflow: hidden;
+        .title {
+          color: #cc1a3d;
+        }
+      }
+
+      .vipItem {
+        box-sizing: border-box;
+        width: 50%;
+        height: 2.347rem;
+        border-right: .027rem solid #dddbc0;
+        padding: .08rem .133rem;
+        overflow: hidden;
+        .title {
+          color: #3cab38;
+        }
+      }
+      .otherItem {
+        box-sizing: border-box;
+        width: 25%;
+        height: 2.347rem;
+        padding: .08rem .133rem;
+        border-right: .027rem solid #dddbc0;
+        overflow: hidden;
+      }
+      .lowPrice {
+        box-sizing: border-box;
+        width: 25%;
+        height: 2.347rem;
+        padding: .08rem .133rem;
+        overflow: hidden;
+      }
+    }
+  }
+  // tab 栏
+  .tab {
+    margin-top: .4rem;
+    /deep/.van-tabs__line {
+      width: 1.2rem;
+      background-color: #4fc173;
+    }
+    .wrapper {
+      background-color: #f5f5f5;
+      padding: .133rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      .item {
+        width: 49%;
+        margin-bottom: .133rem;
+        padding-bottom: .267rem;
+        background-color: #fff;
+        .name {
+          font-size: .32rem;
+          padding-left: .133rem;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .intro {
+          font-size: .32rem;
+          color: #999;
+          padding-left: .133rem;
+          margin-bottom: .533rem;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .buy {
+          display: flex;
+          justify-content: space-between;
+          padding: 0 .133rem;
+          .price {
+            .cur-price {
+              margin-right: .133rem;
+              font-size: .427rem;
+              font-weight: 600;
+              color: #f37078;
+            }
+            .ori-price {
+              font-size: .32rem;
+              text-decoration: line-through;
+              color: #999;
+            }
+          }
+          .icon-cart {
+            width: .6rem;
+            height: .6rem;
+            line-height: .66rem;
+            font-size: .36rem;
+            text-align: center;
+            color: #fff;
+            background-color: #43bf6a;
+            border-radius: 50%;
+          }
+        }
+      }
+    }
+  }
+
+  .divider {
+    height: .8rem;
+    margin-top: -0.533rem;
+    background-color: #f5f5f5;
   }
 }
 
