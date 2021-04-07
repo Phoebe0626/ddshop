@@ -155,9 +155,60 @@
             </div>
           </div>
         </van-tab>
-        <van-tab title="晚餐">1</van-tab>
-        <van-tab title="人气">1</van-tab>
-        <van-tab title="心选">1</van-tab>
+        <van-tab title="晚餐">
+          <div class="wrapper">
+            <div class="item" v-for="(item, index) in flashGoods" :key="index">
+              <div class="image">
+                <van-image lazy-load :src="item.small_image"></van-image>
+              </div>
+              <div class="name">{{ item.name }}</div>
+              <div class="intro">{{ item.spec }}</div>
+              <div class="buy">
+                <div class="price">
+                  <span class="cur-price">￥{{ item.price }}</span>
+                  <span class="ori-price">￥{{ item.origin_price }}</span>
+                </div>
+                <van-icon class="icon-cart" name="cart-o" />
+              </div>
+            </div>
+          </div>
+        </van-tab>
+        <van-tab title="人气">
+          <div class="wrapper">
+            <div class="item" v-for="(item, index) in allList" :key="index">
+              <div class="image">
+                <van-image lazy-load :src="item.small_image"></van-image>
+              </div>
+              <div class="name">{{ item.name }}</div>
+              <div class="intro">{{ item.spec }}</div>
+              <div class="buy">
+                <div class="price">
+                  <span class="cur-price">￥{{ item.price }}</span>
+                  <span class="ori-price">￥{{ item.origin_price }}</span>
+                </div>
+                <van-icon class="icon-cart" name="cart-o" />
+              </div>
+            </div>
+          </div>
+        </van-tab>
+        <van-tab title="心选">
+          <div class="wrapper">
+            <div class="item" v-for="(item, index) in flashGoods" :key="index">
+              <div class="image">
+                <van-image lazy-load :src="item.small_image"></van-image>
+              </div>
+              <div class="name">{{ item.name }}</div>
+              <div class="intro">{{ item.spec }}</div>
+              <div class="buy">
+                <div class="price">
+                  <span class="cur-price">￥{{ item.price }}</span>
+                  <span class="ori-price">￥{{ item.origin_price }}</span>
+                </div>
+                <van-icon class="icon-cart" name="cart-o" />
+              </div>
+            </div>
+          </div>
+        </van-tab>
       </van-tabs>
     </div>
     <div class="divider">
