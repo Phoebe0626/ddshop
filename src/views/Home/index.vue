@@ -82,6 +82,14 @@
         <ul class="goods">
           <li class="goods-item" v-for="(item, index) in flashGoods" :key="index">
             <img :src="item.small_image" alt="" style="width: 100%;">
+            <span class="name">{{ item.name }}</span>
+            <div class="buy">
+              <div class="price">
+                <div class="cur-price">￥{{ item.price }}</div>
+                <div class="ori-price">￥{{ item.origin_price }}</div>
+              </div>
+              <van-icon class="icon-cart" name="cart-o" />
+            </div>
           </li>
         </ul>
       </div>
@@ -304,14 +312,50 @@ export default {
     }
     .wrapper {
       position: relative;
+      margin-top: .533rem;
       overflow: hidden;
       .goods {
         display: flex;
         .goods-item {
           flex-grow: 0;
           flex-shrink: 0;
-          flex-basis: 3rem;
+          flex-basis: 2.8rem;
           padding-right: 0.5rem;
+          .name {
+            display: inline-block;
+            font-size: 0.3129rem;
+            height: 0.9rem;
+            line-height: 0.533rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .buy {
+            display: flex;
+            justify-content: space-between;
+            .price {
+              .cur-price {
+                color: #f37078;
+                font-size: .427rem;
+                font-weight: 600;
+              }
+              .ori-price {
+                margin-top: -0.133rem;
+                color: #999999;
+                font-size: .32rem;
+                text-decoration: line-through;
+              }
+            }
+            .icon-cart {
+              width: .6rem;
+              height: .6rem;
+              line-height: .66rem;
+              font-size: .36rem;
+              text-align: center;
+              color: #fff;
+              background-color: #43bf6a;
+              border-radius: 50%;
+            }
+          }
         }
       }
     }
