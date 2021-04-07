@@ -65,6 +65,7 @@
     </div>
     <!-- 限时抢购 -->
     <div class="flash-sale">
+      <!-- 标题区域 -->
       <div class="title">
        <div class="left">
          <span>限时抢购</span>
@@ -72,10 +73,17 @@
            <div class="time-item">{{ (time.h &lt; 10) ? ('0' + time.h) : time.h }}</div>
            <div class="time-item">{{ (time.m &lt; 10) ? ('0' + time.m) : time.m }}</div>
            <div class="time-item">{{ (time.s &lt; 10) ? ('0' + time.s) : time.s }}</div>
-
          </div>
         </div>
         <div class="right">更多</div>
+      </div>
+      <!-- 商品区域 -->
+      <div ref="wrapper" class="wrapper">
+        <ul class="goods">
+          <li class="goods-item" v-for="(item, index) in flashGoods" :key="index">
+            <img :src="item.small_image" alt="" style="width: 100%;">
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -86,6 +94,7 @@
 import { Icon, Swipe, SwipeItem, Image, Grid, GridItem } from 'vant'
 import { getHomeData } from '../../api/home'
 import Skelemon from './components/Skeleton.vue'
+import Bscroll from 'better-scroll'
 export default {
   name: 'Home',
   components: {
@@ -99,6 +108,7 @@ export default {
   },
   data () {
     return {
+      flashGoods: [],
       time: { // 限时抢购倒计时
         h: 2,
         m: 0,
@@ -114,9 +124,20 @@ export default {
   created () {
     // 加载首页需要的数据
     this.loadHomeData()
+    // 开始抢购模块的倒计时
     this.startTimer()
+    // 应用 better-scroll
+    this.loadHomeData().then(res => {
+      this.$nextTick(() => {
+        const li = document.querySelectorAll('.goods-item')
+        const ul = document.querySelector('.goods')
+        ul.style.width = li[0].clientWidth * li.length + 'px' // 给 ul 设置宽度
+        if (!this.scroll) { this.scroll = new Bscroll(this.$refs.wrapper, { scrollX: true }) }
+      })
+    })
   },
   methods: {
+    // 开始抢购模块的倒计时
     startTimer () {
       const t = setInterval(() => {
         if (this.time.s === 0 && this.time.m !== 0) {
@@ -150,6 +171,11 @@ export default {
         return item.type === 0
       })[0].icon_list
       this.isShowSkelemon = false // 显示内容
+      // 获取限时抢购商品列表
+      this.flashGoods = res.data.list.filter(item => {
+        return item.type === 3
+      })[0].product_list
+      console.log(this.flashGoods)
     }
   }
 }
@@ -274,6 +300,19 @@ export default {
       .right {
         font-size: .32rem;
         color: #3cb963;
+      }
+    }
+    .wrapper {
+      position: relative;
+      overflow: hidden;
+      .goods {
+        display: flex;
+        .goods-item {
+          flex-grow: 0;
+          flex-shrink: 0;
+          flex-basis: 3rem;
+          padding-right: 0.5rem;
+        }
       }
     }
   }
