@@ -1,6 +1,7 @@
 <template>
   <div class="detail-container">
     <van-nav-bar
+      fixed
       title="商品详情"
       left-arrow
       @click-left="$router.back()"
@@ -11,7 +12,7 @@
         <img :src="detail.small_image" alt="">
       </div>
       <!-- 限时抢购 -->
-      <div class="flash">
+      <div class="flash" v-if="detail.isFlash">
         <div class="left">
           <span>限时抢购</span>
           <i>抢购中</i>
@@ -112,6 +113,7 @@ export default {
 .detail-container {
   background-color: #f5f5f5;
   .wrapper {
+    margin-top: 1.227rem;
     // 商品图片
     .goods-img {
       width: 100%;

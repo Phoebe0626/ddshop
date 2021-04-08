@@ -58,7 +58,7 @@
       <!-- 商品区域 -->
       <div ref="wrapper" class="wrapper">
         <ul class="goods">
-          <li class="goods-item" v-for="(item, index) in flashGoods" :key="index" @click="$router.push(`/GoodsDetail?name=${item.name}&spec=${item.spec}&small_image=${item.small_image}&total_sales=${item.total_sales}&price=${item.price}&origin_price=${item.origin_price}`)">
+          <li class="goods-item" v-for="(item, index) in flashGoods" :key="index" @click="$router.push(`/GoodsDetail?name=${item.name}&spec=${item.spec}&small_image=${item.small_image}&total_sales=${item.total_sales}&price=${item.price}&origin_price=${item.origin_price}&isFlash=true`)">
             <img :src="item.small_image" alt="" style="width: 100%;">
             <span class="name">{{ item.name }}</span>
             <div class="buy">
@@ -117,7 +117,7 @@
       <van-tabs swipeable sticky offset-top="1.467rem">
         <van-tab title="全部">
           <div class="wrapper">
-            <div class="item" v-for="(item, index) in allList" :key="index">
+            <div class="item" v-for="(item, index) in allList" :key="index" @click="$router.push(`/GoodsDetail?name=${item.name}&spec=${item.spec}&small_image=${item.small_image}&total_sales=${item.total_sales}&price=${item.price}&origin_price=${item.origin_price}`)">
               <div class="image">
                 <van-image lazy-load :src="item.small_image"></van-image>
               </div>
@@ -135,7 +135,7 @@
         </van-tab>
         <van-tab title="晚餐">
           <div class="wrapper">
-            <div class="item" v-for="(item, index) in flashGoods" :key="index">
+            <div class="item" v-for="(item, index) in flashGoods" :key="index" @click="$router.push(`/GoodsDetail?name=${item.name}&spec=${item.spec}&small_image=${item.small_image}&total_sales=${item.total_sales}&price=${item.price}&origin_price=${item.origin_price}`)">
               <div class="image">
                 <van-image lazy-load :src="item.small_image"></van-image>
               </div>
@@ -153,7 +153,7 @@
         </van-tab>
         <van-tab title="人气">
           <div class="wrapper">
-            <div class="item" v-for="(item, index) in allList" :key="index">
+            <div class="item" v-for="(item, index) in allList" :key="index" @click="$router.push(`/GoodsDetail?name=${item.name}&spec=${item.spec}&small_image=${item.small_image}&total_sales=${item.total_sales}&price=${item.price}&origin_price=${item.origin_price}`)">
               <div class="image">
                 <van-image lazy-load :src="item.small_image"></van-image>
               </div>
@@ -171,7 +171,7 @@
         </van-tab>
         <van-tab title="心选">
           <div class="wrapper">
-            <div class="item" v-for="(item, index) in flashGoods" :key="index">
+            <div class="item" v-for="(item, index) in flashGoods" :key="index" @click="$router.push(`/GoodsDetail?name=${item.name}&spec=${item.spec}&small_image=${item.small_image}&total_sales=${item.total_sales}&price=${item.price}&origin_price=${item.origin_price}`)">
               <div class="image">
                 <van-image lazy-load :src="item.small_image"></van-image>
               </div>
