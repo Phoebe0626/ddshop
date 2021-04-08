@@ -36,12 +36,12 @@ const routes = [
     path: '/dashboard',
     name: 'dashboard',
     component: Dashboard,
-    meta: {
-      keepAlive: true
-    },
     children: [{
       path: '/dashboard',
-      redirect: '/dashboard/home'
+      redirect: '/dashboard/home',
+      meta: {
+        keepAlive: true
+      }
     }, {
       path: 'home',
       name: 'home',
@@ -105,12 +105,11 @@ const routes = [
           component: EditAddress
         }]
       }]
+    }, {
+      path: '/GoodsDetail',
+      name: 'GoodsDetail',
+      component: GoodsDetail
     }]
-  },
-  {
-    path: '/GoodsDetail',
-    name: GoodsDetail,
-    component: GoodsDetail
   },
   {
     path: '/login',
@@ -120,6 +119,17 @@ const routes = [
 ]
 
 const router = new VueRouter({
+  // 解决路由跳转页面没有置顶
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return {
+        x: 0,
+        y: 0
+      }
+    }
+  },
   routes
 })
 // 添加导航守卫

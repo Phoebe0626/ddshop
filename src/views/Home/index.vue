@@ -114,7 +114,7 @@
     </div>
     <!-- 商品 -->
     <div class="tab">
-      <van-tabs swipeable sticky>
+      <van-tabs swipeable sticky offset-top="1.467rem">
         <van-tab title="全部">
           <div class="wrapper">
             <div class="item" v-for="(item, index) in allList" :key="index">
@@ -236,6 +236,7 @@ export default {
     }
   },
   created () {
+    console.log(1)
     // 加载首页需要的数据
     this.loadHomeData()
     // 开始抢购模块的倒计时
@@ -594,7 +595,6 @@ export default {
 
 <style>
 .van-sticky--fixed {
-  position: fixed;
   top: 1.467rem;
 }
 </style>
