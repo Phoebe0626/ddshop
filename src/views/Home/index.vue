@@ -4,30 +4,8 @@
   <div v-else>
     <!-- 头部地址 搜索 + 轮播图 -->
     <div class="header-wrap">
-      <!-- 头部搜索框 -->
-      <div class="header">
-        <!-- 选择位置 -->
-        <div class="location">
-          <van-icon name="location" />
-          <span class="text">请选择位置&nbsp;</span>
-          <van-icon name="arrow-down" />
-        </div>
-        <div class="search">
-          <van-icon class="icon" name="search" />
-          <span>请输入商品名称</span>
-        </div>
-      </div>
-      <!-- 轮播图 -->
-      <van-swipe
-        id="my-swipe"
-        class="my-swipe"
-        :autoplay="3000"
-        indicator-color="white"
-      >
-        <van-swipe-item v-for="(image, index) in swipeList" :key="index">
-          <van-image class="image-item" :src="image.icon_url" fit="fill"></van-image>
-        </van-swipe-item>
-      </van-swipe>
+      <Header />
+      <Swipe :swipe-list="swipeList" />
       <!-- 广告条绿色字 -->
       <div class="green-text">
         <div class="item">
@@ -80,7 +58,7 @@
       <!-- 商品区域 -->
       <div ref="wrapper" class="wrapper">
         <ul class="goods">
-          <li class="goods-item" v-for="(item, index) in flashGoods" :key="index">
+          <li class="goods-item" v-for="(item, index) in flashGoods" :key="index" @click="$router.push(`/GoodsDetail?name=${item.name}&spec=${item.spec}&small_image=${item.small_image}&total_sales=${item.total_sales}&price=${item.price}&origin_price=${item.origin_price}`)">
             <img :src="item.small_image" alt="" style="width: 100%;">
             <span class="name">{{ item.name }}</span>
             <div class="buy">
@@ -219,23 +197,25 @@
 </template>
 
 <script>
-import { Icon, Swipe, SwipeItem, Image, Grid, GridItem, Tab, Tabs, Lazyload, Divider } from 'vant'
+import { Icon, Image, Grid, GridItem, Tab, Tabs, Lazyload, Divider } from 'vant'
 import { getHomeData } from '../../api/home'
 import Skelemon from './components/Skeleton.vue'
+import Header from './components/Header'
+import Swipe from './components/Swipe'
 import Bscroll from 'better-scroll'
 export default {
   name: 'Home',
   components: {
+    Swipe,
+    Header,
+    Skelemon,
     [Divider.name]: Divider,
     [Lazyload.name]: Lazyload,
     [Tab.name]: Tab,
     [Tabs.name]: Tabs,
-    Skelemon,
     [Grid.name]: Grid,
     [GridItem.name]: GridItem,
     [Image.name]: Image,
-    [Swipe.name]: Swipe,
-    [SwipeItem.name]: SwipeItem,
     [Icon.name]: Icon
   },
   data () {
@@ -347,41 +327,6 @@ export default {
     padding: .267rem .267rem 0;
     background: url('../../assets/images/home/bg1.jpg') no-repeat;
     background-size: cover;
-    .header {
-      display: flex;
-      justify-content: space-between;
-      font-size: .373rem;
-      // 选择位置
-      .location {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 33%;
-        height: .853rem;
-        line-height: .853rem;
-        color: #fff;
-        background-color: rgba(0, 0, 0, .5);
-        border-radius: .43rem;
-        .text {
-          margin: 0 .1rem;
-        }
-      }
-      // 搜索框
-      .search {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: .853rem;
-        width: 65%;
-        background-color: #f5f5f5;
-        border-radius: .43rem;
-        color: grey;
-        .icon {
-          margin-right: .1rem;
-          font-size: .427rem;
-        }
-      }
-    }
     // 绿色字
     .green-text {
       display: flex;
@@ -648,17 +593,8 @@ export default {
 </style>
 
 <style>
-  /* 轮播图样式 */
-  .my-swipe {
-    margin-top: .4rem;
-  }
-  .my-swipe .van-swipe-item {
-    color: #fff;
-    font-size: 20px;
-    text-align: center;
-    height: 4.7rem;
-  }
-  .image-item {
-    height: 4.7rem;
-  }
+.van-sticky--fixed {
+  position: fixed;
+  top: 1.467rem;
+}
 </style>

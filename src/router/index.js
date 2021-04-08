@@ -20,6 +20,7 @@ const Coupon = () => import('../views/My/Children/Coupon.vue')
 const MyAddress = () => import('../views/My/Children/Address/MyAddress.vue')
 const AddAddress = () => import('../views/My/Children/Address/AddAddress.vue')
 const EditAddress = () => import('../views/My/Children/Address/EditAddress.vue')
+const GoodsDetail = () => import('../views/GoodsDetail')
 // 登录页
 const Login = () => import('../views/Login')
 
@@ -105,7 +106,13 @@ const routes = [
         }]
       }]
     }]
-  }, {
+  },
+  {
+    path: '/GoodsDetail',
+    name: GoodsDetail,
+    component: GoodsDetail
+  },
+  {
     path: '/login',
     name: 'login',
     component: Login
