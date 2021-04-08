@@ -3,12 +3,15 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import { Lazyload } from 'vant'
+import ToTop from './components/ToTop'
 
 import './css/index.less'
 
 import 'amfe-flexible'
 
 import './icons'
+
+Vue.component('to-top', ToTop) // 全局注册 返回顶部按钮 组件
 
 Vue.use(Lazyload, {
   lazyComponent: true,

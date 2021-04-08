@@ -2,6 +2,7 @@
   <div class="detail-container">
     <van-nav-bar
       fixed
+      safe-area-inset-top
       title="商品详情"
       left-arrow
       @click-left="$router.back()"

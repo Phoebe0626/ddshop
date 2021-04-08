@@ -193,6 +193,7 @@
       <van-divider>没有更多了</van-divider>
     </div>
   </div>
+  <to-top />
   </div>
 </template>
 
@@ -236,7 +237,6 @@ export default {
     }
   },
   created () {
-    console.log(1)
     // 加载首页需要的数据
     this.loadHomeData()
     // 开始抢购模块的倒计时
