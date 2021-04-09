@@ -16,9 +16,10 @@
       </ul>
     </div>
     <!-- 内容区域 -->
-    <section ref="ContentWrapper">
+    <section class="section-wrapper" ref="SectionWrapper">
       <div class="content-wrapper">
         <div
+          ref="DivWrapper"
           v-for="(item, index) in rightContent"
           :key="index"
         >
@@ -75,14 +76,17 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
+      console.log(123)
       // this.initTitleScroll()
+      this.initProductScroll()
     })
   },
   methods: {
     // 点击右侧标题
     hSelectTitle (index) {
       this.currentIndex = index
-      this.titleScroll.scrollToElement(this.$refs.subTitle[index], 300)
+      this.titleScroll.scrollToElement(this.$refs.subTitle[index], 200)
+      this.productScroll.scrollToElement(document.querySelectorAll('.category-title')[index], 100)
     },
     // 初始化右侧标题滚动条
     initTitleScroll () {
@@ -100,6 +104,15 @@ export default {
       } else {
         this.titleScroll.refresh()
       }
+    },
+    // 初始化右侧产品列表滚动条
+    initProductScroll () {
+      if (!this.productScroll) {
+        this.productScroll = new BScroll(this.$refs.SectionWrapper, {
+          scrollY: true,
+          click: true
+        })
+      }
     }
   },
   watch: {
@@ -109,10 +122,14 @@ export default {
     },
     // 从父组件接收的数据
     rightContent (newVal, oldVal) {
-      console.log(newVal)
       this.currentIndex = 0
       this.$nextTick(() => {
         this.initTitleScroll()
+        if (this.productScroll) {
+          this.productScroll.refresh()
+          const el = document.querySelectorAll('.category-title')[0]
+          this.productScroll.scrollToElement(el, 0)
+        }
       })
     }
   }
@@ -123,6 +140,7 @@ export default {
 .content-container {
   margin-left: 2.507rem;
   font-size: .373rem;
+  // 右侧标题
   .subTitile-wrapper {
     overflow: hidden;
     border-bottom: .027rem solid #e8e9e8;
@@ -139,62 +157,70 @@ export default {
       }
     }
   }
-  .content-wrapper {
-    .category-title {
-      height: 1.067rem;
-      line-height: 1.067rem;
-      padding-left: .133rem;
-      background-color: #f3f5f7;
-      border-left: .08rem solid #eee;
-    }
-    .product-item {
-      position: relative;
-      padding-left: .133rem;
-      display: flex;
-      border-bottom: .027rem solid #eee;
-      .product-image {
-        width: 1.867rem;
-        height: 1.867rem;
+  // 右侧内容
+  .section-wrapper {
+    position: absolute;
+    top: 2.667rem;
+    left: 2.507rem;
+    bottom: 1.333rem;
+    overflow: hidden;
+    .content-wrapper {
+      .category-title {
+        height: 1.067rem;
+        line-height: 1.067rem;
+        padding-left: .133rem;
+        background-color: #f3f5f7;
+        border-left: .08rem solid #eee;
       }
-      .info {
-        padding: .133rem .267rem .533rem .133rem;
-        .name {
-          font-size: .373rem;
+      .product-item {
+        position: relative;
+        padding-left: .133rem;
+        display: flex;
+        border-bottom: .027rem solid #eee;
+        .product-image {
+          width: 1.867rem;
+          height: 1.867rem;
         }
-        .spec {
-          margin-top: .08rem;
-          margin-bottom: .08rem;
-          font-size: .32rem;
-          color: #999;
-          text-overflow: -o-ellipsis-lastline;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          line-clamp: 2;
-          -webkit-box-orient: vertical;
-        }
-        .cur-price {
-          color: #ff0000;
-          margin-right: .213rem;
-        }
-        .ori-price {
-          color: #b2b2b2;
-          text-decoration: line-through;
-          font-size: .8em;
-        }
-        .cart-icon {
-          position: absolute;
-          right: .533rem;
-          bottom: .213rem;
-          width: .667rem;
-          height: .667rem;
-          line-height: .667rem;
-          text-align: center;
-          color: #fff;
-          font-size: .427rem;
-          border-radius: 50%;
-          background-color: #45c16c;
+        .info {
+          padding: .133rem .267rem .533rem .133rem;
+          .name {
+            font-size: .373rem;
+          }
+          .spec {
+            margin-top: .08rem;
+            margin-bottom: .08rem;
+            font-size: .32rem;
+            color: #999;
+            text-overflow: -o-ellipsis-lastline;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+          }
+          .cur-price {
+            color: #ff0000;
+            margin-right: .213rem;
+          }
+          .ori-price {
+            color: #b2b2b2;
+            text-decoration: line-through;
+            font-size: .8em;
+          }
+          .cart-icon {
+            position: absolute;
+            right: .533rem;
+            bottom: .213rem;
+            width: .667rem;
+            height: .667rem;
+            line-height: .667rem;
+            text-align: center;
+            color: #fff;
+            font-size: .427rem;
+            border-radius: 50%;
+            background-color: #45c16c;
+          }
         }
       }
     }
