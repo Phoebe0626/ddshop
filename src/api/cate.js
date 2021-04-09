@@ -8,7 +8,6 @@ export const getCate = function () {
 
 export const getCateDetail = function (params) {
   return request({
-    url: 'homeApi/categoriesdetail',
-    params
+    url: 'homeApi/categoriesdetail/' + params
   })
 }
