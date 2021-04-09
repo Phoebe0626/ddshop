@@ -237,8 +237,8 @@ export default {
     }
   },
   created () {
-    // 加载首页需要的数据
-    this.loadHomeData()
+    // // 加载首页需要的数据
+    // this.loadHomeData()
     // 开始抢购模块的倒计时
     this.startTimer()
     // 应用 better-scroll

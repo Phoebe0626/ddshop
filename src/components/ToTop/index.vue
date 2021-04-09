@@ -26,19 +26,16 @@ export default {
     window.removeEventListener('scroll', this.handleScroll)
   },
   methods: {
-    scrollTo (element, to, duration) {
-      if (duration <= 0) return
-      var difference = to - element.scrollTop // 滚动条需要移动的总距离
-      var perTick = difference / duration * 10 // 每次需要移动的距离
-
-      setTimeout(() => {
-        element.scrollTop = element.scrollTop + perTick
-        if (element.scrollTop === to) return // 如果完成要求的移动 则停止调用
-        this.scrollTo(element, to, duration - 10) // 递归调用 直到完成规定的移动
-      }, 10)
-    },
     hToTop () {
-      this.scrollTo(document.documentElement, 0, 600)
+      const t = setInterval(() => {
+        const scrollT = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+        console.log(scrollT)
+        const perTick = Math.floor(-scrollT / 5)
+        document.documentElement.scrollTop = document.body.scrollTop = scrollT + perTick
+        if (scrollT === 0) {
+          clearInterval(t)
+        }
+      }, 10)
     },
     // 滚动事件
     handleScroll () {
