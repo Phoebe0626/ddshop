@@ -1,5 +1,6 @@
 <template>
   <div class="content-container">
+    <!-- 标题区域 -->
     <div class="subTitile-wrapper" ref="TitleWrapper">
       <ul class="title-wrapper-ul" ref="ulWrapper">
         <li
@@ -14,13 +15,54 @@
         </li>
       </ul>
     </div>
+    <!-- 内容区域 -->
+    <section ref="ContentWrapper">
+      <div class="content-wrapper">
+        <div
+          v-for="(item, index) in rightContent"
+          :key="index"
+        >
+        <div class="category-title">{{ item.name }}</div>
+        <ul>
+          <li
+            class="product-item"
+            v-for="(product, i) in item.products"
+            :key="i"
+          >
+          <div class="product-image">
+            <van-image
+              class="product-image"
+              :src="product.small_image"
+              lazy-load
+            ></van-image>
+          </div>
+          <div class="info">
+            <div class="name">
+              {{ product.name }}
+            </div>
+            <div class="spec">{{ product.spec }}</div>
+            <div class="price">
+              <span class="cur-price">￥{{ product.price }}</span>
+              <span class="ori-price">￥{{ product.origin_price }}</span>
+            </div>
+            <van-icon class="cart-icon" name="cart-o" />
+          </div>
+          </li>
+        </ul>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
 import BScroll from 'better-scroll'
-// import Bscroll from 'better-scroll'
+import { Image, Icon } from 'vant'
 export default {
+  components: {
+    [Icon.name]: Icon,
+    [Image.name]: Image
+  },
   props: {
     rightContent: {
       type: Array
@@ -67,6 +109,7 @@ export default {
     },
     // 从父组件接收的数据
     rightContent (newVal, oldVal) {
+      console.log(newVal)
       this.currentIndex = 0
       this.$nextTick(() => {
         this.initTitleScroll()
@@ -93,6 +136,66 @@ export default {
       }
       .title-item.selected {
         color: #3cb963;
+      }
+    }
+  }
+  .content-wrapper {
+    .category-title {
+      height: 1.067rem;
+      line-height: 1.067rem;
+      padding-left: .133rem;
+      background-color: #f3f5f7;
+      border-left: .08rem solid #eee;
+    }
+    .product-item {
+      position: relative;
+      padding-left: .133rem;
+      display: flex;
+      border-bottom: .027rem solid #eee;
+      .product-image {
+        width: 1.867rem;
+        height: 1.867rem;
+      }
+      .info {
+        padding: .133rem .267rem .533rem .133rem;
+        .name {
+          font-size: .373rem;
+        }
+        .spec {
+          margin-top: .08rem;
+          margin-bottom: .08rem;
+          font-size: .32rem;
+          color: #999;
+          text-overflow: -o-ellipsis-lastline;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          line-clamp: 2;
+          -webkit-box-orient: vertical;
+        }
+        .cur-price {
+          color: #ff0000;
+          margin-right: .213rem;
+        }
+        .ori-price {
+          color: #b2b2b2;
+          text-decoration: line-through;
+          font-size: .8em;
+        }
+        .cart-icon {
+          position: absolute;
+          right: .533rem;
+          bottom: .213rem;
+          width: .667rem;
+          height: .667rem;
+          line-height: .667rem;
+          text-align: center;
+          color: #fff;
+          font-size: .427rem;
+          border-radius: 50%;
+          background-color: #45c16c;
+        }
       }
     }
   }
