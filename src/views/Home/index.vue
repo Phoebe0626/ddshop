@@ -66,7 +66,7 @@
                 <div class="cur-price">￥{{ item.price }}</div>
                 <div class="ori-price">￥{{ item.origin_price }}</div>
               </div>
-              <van-icon class="icon-cart" name="cart-o" />
+              <van-icon class="icon-cart" name="cart-o" @click.stop="hAddToCart(item)" />
             </div>
           </li>
         </ul>
@@ -114,7 +114,7 @@
     </div>
     <!-- 商品 -->
     <div class="tab">
-      <van-tabs swipeable sticky offset-top="1.467rem">
+      <van-tabs swipeable sticky>
         <van-tab title="全部">
           <div class="wrapper">
             <div class="item" v-for="(item, index) in allList" :key="index" @click="$router.push(`/GoodsDetail?name=${item.name}&spec=${item.spec}&small_image=${item.small_image}&total_sales=${item.total_sales}&price=${item.price}&origin_price=${item.origin_price}`)">
@@ -198,6 +198,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import { Icon, Image, Grid, GridItem, Tab, Tabs, Lazyload, Divider } from 'vant'
 import { getHomeData } from '../../api/home'
 import Skelemon from './components/Skeleton.vue'
@@ -257,6 +258,19 @@ export default {
     })
   },
   methods: {
+    ...mapMutations(['addToCart']),
+    // 添加到购物车
+    hAddToCart (item) {
+      const good = {
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        count: 1,
+        small_image: item.small_image
+      }
+      this.addToCart(good)
+      this.$toast('添加成功')
+    },
     // 开始抢购模块的倒计时
     startTimer () {
       const t = setInterval(() => {

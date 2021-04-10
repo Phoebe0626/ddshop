@@ -1,6 +1,32 @@
-import { removeLocalStore, setLocalStore } from '../utils/storage'
+import { removeLocalStore, setLocalStore, getLocalStore } from '../utils/storage'
+import router from '../router'
+import { Toast } from 'vant'
+import Vue from 'vue'
+Vue.use(Toast)
 
 export default {
+  // 添加到购物车
+  addToCart (state, good) {
+    if (!getLocalStore('user-info')) { // 判断用户是否登录
+      Toast({
+        message: '请先登录',
+        duration: 800
+      })
+      router.push('/login')
+      return
+    }
+    const flag = state.cart.some((item, index) => {
+      if (item.id === good.id) { // 如果购物车中存在该商品，则数量加1
+        state.cart[index].count++
+        return true
+      }
+    })
+    if (!flag) { // 如果不存在，将该商品加入购物车
+      state.cart.push(good)
+    }
+    // 保存到本地
+    setLocalStore('cart', state.cart)
+  },
   // 更新个人信息
   updateUserInfo (state, userInfo) {
     state.userInfo = userInfo // 更新 state
