@@ -11,7 +11,11 @@
         :key="index"
       >
        <div class="left">
-         <i class="checkbox"></i>
+         <i
+          class="checkbox"
+          :class="{checked : item.checked}"
+          @click="hToggleChecked(index)"
+        ></i>
        </div>
        <div class="center">
            <img :src="item.small_image" alt="">
@@ -35,7 +39,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import { NavBar, Checkbox, CheckboxGroup, Card } from 'vant'
 export default {
   components: {
@@ -46,6 +50,18 @@ export default {
   },
   computed: {
     ...mapGetters(['cartList'])
+  },
+  data () {
+    return {
+      cartListData: []
+    }
+  },
+  methods: {
+    ...mapMutations(['toggleChecked']),
+    // 切换商品的选中状态
+    hToggleChecked (index) {
+      this.toggleChecked(index)
+    }
   }
 }
 </script>
@@ -75,7 +91,7 @@ export default {
           background-size: 50px 100px;
         }
         .checkbox.checked {
-          background:  -25px 0;
+          background:  url('../../assets/images/cart/shop-icon.png') no-repeat -25px 0;
           background-size: 50px 100px;
         }
       }

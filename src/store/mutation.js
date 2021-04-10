@@ -5,6 +5,11 @@ import Vue from 'vue'
 Vue.use(Toast)
 
 export default {
+  // 切换购物车某商品的选中状态
+  toggleChecked (state, index) {
+    state.cartList[index].checked = !state.cartList[index].checked
+    setLocalStore('cart-list', state.cartList)
+  },
   // 添加到购物车
   addToCart (state, good) {
     if (!getLocalStore('user-info')) { // 判断用户是否登录

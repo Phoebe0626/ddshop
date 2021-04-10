@@ -268,7 +268,7 @@ export default {
         price: item.price,
         count: 1,
         small_image: item.small_image,
-        isSelected: true
+        checked: true
       }
       this.addToCart(good)
     },
