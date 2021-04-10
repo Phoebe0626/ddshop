@@ -55,14 +55,25 @@ export default {
   },
   computed: {
     ...mapGetters(['cartList']),
+    // 商品总价
+    totalPrice () {
+      let sum = 0
+      this.cartList.forEach((item, index) => {
+        if (item.checked) { // 选中商品的总价格
+          sum = sum + item.price * item.count
+        }
+      })
+      return sum * 100
+    },
+    // 全选按钮状态
     checkedAll () {
       return this.cartList.every(item => item.checked === true)
     }
   },
   data () {
     return {
-      checkedAllData: false,
-      totalPrice: 5050 // 选择的商品总价格
+      checkedAllData: false
+      // totalPrice: 5050 // 选择的商品总价格
       // cartListData: [] // 购物车商品列表
     }
   },
