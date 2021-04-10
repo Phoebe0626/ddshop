@@ -27,9 +27,13 @@
           <div class="bottom">
             <div class="price">￥{{ item.price }}</div>
             <div class="count">
-              <a href="javascript:;" class="reduce-btn">-</a>
+              <a href="javascript:;"
+                class="reduce-btn"
+                :class="{disabled: item.count === 1}"
+                @click="hReduce(index)"
+              >-</a>
               <span class="number">{{ item.count }}</span>
-              <a href="javascropt:;" class="add-btn">+</a>
+              <a href="javascropt:;" class="add-btn" @click="hAdd(index)">+</a>
             </div>
           </div>
        </div>
@@ -81,7 +85,23 @@ export default {
     this.checkedAllData = this.checkedAll
   },
   methods: {
-    ...mapMutations(['toggleChecked', 'toggleAllChecked']),
+    ...mapMutations([
+      'reduceCount', // 减少数量
+      'addCount', // 增加数量
+      'toggleChecked', // 切换商品的选中状态
+      'toggleAllChecked' // 切换全选状态
+    ]),
+    // 增加数量
+    hAdd (index) {
+      this.addCount(index)
+    },
+    // 减少数量
+    hReduce (index) {
+      if (this.cartList[index].count === 1) {
+        return
+      }
+      this.reduceCount(index)
+    },
     // 切换全选状态
     hToggleAllChecked () {
       this.toggleAllChecked(this.checkedAllData)
@@ -171,6 +191,9 @@ export default {
             .reduce-btn {
               flex: 3;
               border-right: .027rem solid #999;
+            }
+            .reduce-btn.disabled {
+              color: #e9e8e9;
             }
             .number {
               flex: 4;
