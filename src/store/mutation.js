@@ -5,6 +5,13 @@ import Vue from 'vue'
 Vue.use(Toast)
 
 export default {
+  // 切换全选状态
+  toggleAllChecked (state, allChecked) {
+    state.cartList.forEach((item, index) => {
+      state.cartList[index].checked = allChecked
+    })
+    setLocalStore('cart-list', state.cartList)
+  },
   // 切换购物车某商品的选中状态
   toggleChecked (state, index) {
     state.cartList[index].checked = !state.cartList[index].checked

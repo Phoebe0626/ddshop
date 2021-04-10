@@ -35,32 +35,56 @@
        </div>
       </div>
     </div>
+    <!-- 结算 -->
+    <van-submit-bar :price="totalPrice" button-text="提交订单" @submit="hSubmitOrder">
+      <van-checkbox v-model="checkedAllData" @click="hToggleAllChecked">全选</van-checkbox>
+    </van-submit-bar>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
-import { NavBar, Checkbox, CheckboxGroup, Card } from 'vant'
+import { NavBar, Checkbox, CheckboxGroup, Card, SubmitBar } from 'vant'
 export default {
   components: {
+    [SubmitBar.name]: SubmitBar,
     [Card.name]: Card,
     [CheckboxGroup.name]: CheckboxGroup,
     [Checkbox.name]: Checkbox,
     [NavBar.name]: NavBar
   },
   computed: {
-    ...mapGetters(['cartList'])
+    ...mapGetters(['cartList']),
+    checkedAll () {
+      return this.cartList.every(item => item.checked === true)
+    }
   },
   data () {
     return {
-      cartListData: []
+      checkedAllData: false,
+      totalPrice: 5050 // 选择的商品总价格
+      // cartListData: [] // 购物车商品列表
     }
   },
+  created () {
+    this.checkedAllData = this.checkedAll
+  },
   methods: {
-    ...mapMutations(['toggleChecked']),
+    ...mapMutations(['toggleChecked', 'toggleAllChecked']),
+    // 切换全选状态
+    hToggleAllChecked () {
+      this.toggleAllChecked(this.checkedAllData)
+    },
+    // 提交订单
+    hSubmitOrder () {},
     // 切换商品的选中状态
     hToggleChecked (index) {
       this.toggleChecked(index)
+      if (this.cartList.every(item => item.checked)) {
+        this.checkedAllData = true
+      } else {
+        this.checkedAllData = false
+      }
     }
   }
 }
@@ -69,6 +93,13 @@ export default {
 <style lang="less" scoped>
 /deep/.van-nav-bar__text {
   color: #45c763;
+}
+/deep/.van-submit-bar {
+  bottom: 1.333rem;
+}
+/deep/.van-checkbox__icon--checked .van-icon{
+  background-color: #629357;
+  border-color: #629357;
 }
 .cart-container {
   background-color: #f5f5f5;
