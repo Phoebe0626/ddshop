@@ -3,6 +3,7 @@
     <van-nav-bar
       title="购物车"
       right-text="删除"
+      @click-right="hDel"
     ></van-nav-bar>
     <!-- 商品列表 -->
     <div class="goodsList-wrapper">
@@ -86,11 +87,16 @@ export default {
   },
   methods: {
     ...mapMutations([
+      'delGood', // 删除商品
       'reduceCount', // 减少数量
       'addCount', // 增加数量
       'toggleChecked', // 切换商品的选中状态
       'toggleAllChecked' // 切换全选状态
     ]),
+    // 删除商品
+    hDel () {
+      this.delGood()
+    },
     // 增加数量
     hAdd (index) {
       this.addCount(index)

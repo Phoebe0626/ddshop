@@ -5,6 +5,15 @@ import Vue from 'vue'
 Vue.use(Toast)
 
 export default {
+  // 删除购物车中选中的商品
+  delGood (state) {
+    for (let i = state.cartList.length - 1; i >= 0; i--) {
+      if (state.cartList[i].checked) {
+        state.cartList.splice(i, 1)
+      }
+    }
+    setLocalStore('cart-list', state.cartList)
+  },
   // 增加购物车某商品数量
   addCount (state, index) {
     state.cartList[index].count++
