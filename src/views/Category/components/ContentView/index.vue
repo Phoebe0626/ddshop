@@ -76,7 +76,6 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      console.log(123)
       // this.initTitleScroll()
       this.initProductScroll()
     })
@@ -110,7 +109,8 @@ export default {
       if (!this.productScroll) {
         this.productScroll = new BScroll(this.$refs.SectionWrapper, {
           scrollY: true,
-          click: true
+          click: true,
+          disableTouch: false
         })
       }
     }
