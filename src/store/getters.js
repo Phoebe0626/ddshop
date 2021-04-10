@@ -5,5 +5,6 @@ export default {
   userBirth: state => { return state.userBirth },
   userPhone: state => { return state.userInfo.phone },
   token: state => { return state.userInfo.token },
-  userAddress: state => { return state.userAddress }
+  userAddress: state => { return state.userAddress },
+  cartList: state => { return state.cartList }
 }

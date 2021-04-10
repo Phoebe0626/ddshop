@@ -1,6 +1,6 @@
 import { getLocalStore } from '../utils/storage'
 export default {
-  cart: getLocalStore('cart') || [],
+  cartList: getLocalStore('cart-list') || [],
   userInfo: getLocalStore('user-info') || {},
   userBirth: getLocalStore('user-birth') || '',
   userAddress: getLocalStore('user-address') || []

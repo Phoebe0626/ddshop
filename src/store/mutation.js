@@ -15,17 +15,18 @@ export default {
       router.push('/login')
       return
     }
-    const flag = state.cart.some((item, index) => {
+    const flag = state.cartList.some((item, index) => {
       if (item.id === good.id) { // 如果购物车中存在该商品，则数量加1
-        state.cart[index].count++
+        state.cartList[index].count++
         return true
       }
     })
     if (!flag) { // 如果不存在，将该商品加入购物车
-      state.cart.push(good)
+      state.cartList.push(good)
     }
     // 保存到本地
-    setLocalStore('cart', state.cart)
+    setLocalStore('cart-list', state.cartList)
+    Toast('添加成功')
   },
   // 更新个人信息
   updateUserInfo (state, userInfo) {

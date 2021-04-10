@@ -261,15 +261,16 @@ export default {
     ...mapMutations(['addToCart']),
     // 添加到购物车
     hAddToCart (item) {
+      console.log(item)
       const good = {
         id: item.id,
         name: item.name,
         price: item.price,
         count: 1,
-        small_image: item.small_image
+        small_image: item.small_image,
+        isSelected: true
       }
       this.addToCart(good)
-      this.$toast('添加成功')
     },
     // 开始抢购模块的倒计时
     startTimer () {
@@ -313,7 +314,7 @@ export default {
       this.allList = res.data.list.filter(item => {
         return item.type === 13
       })[0].product_list
-      console.log(this.allList)
+      // console.log(this.allList)
     }
   }
 }
