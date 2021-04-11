@@ -2,9 +2,11 @@
   <div class="cart-container">
     <van-nav-bar
       title="购物车"
-      right-text="删除"
-      @click-right="hDel"
-    ></van-nav-bar>
+    >
+      <template v-if="isShowDel" slot="right">
+        <span class="right-btn" :class="{disabled: isDisabledDel}" @click="hDel">删除</span>
+      </template>
+    </van-nav-bar>
     <!-- 商品列表 -->
     <div class="goodsList-wrapper">
       <div class="goods-item"
@@ -41,17 +43,24 @@
       </div>
     </div>
     <!-- 结算 -->
-    <van-submit-bar :price="totalPrice" button-text="提交订单" @submit="hSubmitOrder">
+    <van-submit-bar v-if="isShowDel" :price="totalPrice" button-text="提交订单" @submit="hSubmitOrder">
       <van-checkbox v-model="checkedAllData" @click="hToggleAllChecked">全选</van-checkbox>
     </van-submit-bar>
+
+    <div class="empty" v-else>
+      <img src="../../assets/images/cart/empty.png" alt="">
+      <div class="text">购物车空空如也~</div>
+      <van-button class="btn" type="primary" round @click="$router.push('/dashboard/home')">去逛逛</van-button>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
-import { NavBar, Checkbox, CheckboxGroup, Card, SubmitBar, Dialog } from 'vant'
+import { NavBar, Checkbox, CheckboxGroup, Card, SubmitBar, Dialog, Button } from 'vant'
 export default {
   components: {
+    [Button.name]: Button,
     [Dialog.name]: Dialog,
     [SubmitBar.name]: SubmitBar,
     [Card.name]: Card,
@@ -61,6 +70,14 @@ export default {
   },
   computed: {
     ...mapGetters(['cartList']),
+    // 是否显示删除按钮
+    isShowDel () {
+      return this.cartList.length
+    },
+    // 删除按钮是否可用
+    isDisabledDel () {
+      return !this.cartList.some(item => item.checked === true)
+    },
     // 商品总价
     totalPrice () {
       let sum = 0
@@ -96,15 +113,17 @@ export default {
     ]),
     // 删除商品
     hDel () {
-      Dialog.confirm({
+      if (!this.isDisabledDel) {
+        Dialog.confirm({
         // title: '标题',
-        message: '确定要删除选中商品吗？'
-      }).then(() => {
+          message: '确定要删除选中商品吗？'
+        }).then(() => {
         // on confirm
-        this.delGood()
-      }).catch(() => {
+          this.delGood()
+        }).catch(() => {
         // on cancel
-      })
+        })
+      }
     },
     // 增加数量
     hAdd (index) {
@@ -148,7 +167,15 @@ export default {
   border-color: #629357;
 }
 .cart-container {
+  width: 100%;
+  height: 100%;
   background-color: #f5f5f5;
+  .right-btn {
+    color: #45c763;
+  }
+  .right-btn.disabled {
+    color: gray;
+  }
   .goodsList-wrapper {
     margin-top: .16rem;
     .goods-item {
@@ -220,6 +247,27 @@ export default {
           }
         }
       }
+    }
+  }
+  .empty {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    img {
+      display: block;
+      padding-top: .8rem;
+      width: 5.013rem;
+      margin: 0 auto;
+    }
+    .text {
+      margin-top: .213rem;
+      margin-bottom: .267rem;
+      font-size: .427rem;
+    }
+    .btn {
+      width: 2.667rem;
+      font-size: .427rem;
     }
   }
 }
