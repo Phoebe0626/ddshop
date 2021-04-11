@@ -11,7 +11,7 @@
           <span class="cur-price">￥{{ item.price }}</span>
           <span class="ori-price">￥{{ item.origin_price }}</span>
         </div>
-        <van-icon class="icon-cart" name="cart-o" />
+        <van-icon class="icon-cart" name="cart-o" @click.stop="hAddToCart(item)" />
       </div>
     </div>
   </div>
@@ -19,6 +19,7 @@
 
 <script>
 import { Icon, Image } from 'vant'
+import { mapMutations } from 'vuex'
 export default {
   components: {
     [Image.name]: Image,
@@ -27,6 +28,22 @@ export default {
   props: {
     list: {
       type: Array
+    }
+  },
+  methods: {
+    ...mapMutations(['addToCart']),
+    // 添加到购物车
+    hAddToCart (item) {
+      console.log(item)
+      const good = {
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        count: 1,
+        small_image: item.small_image,
+        checked: true
+      }
+      this.addToCart(good)
     }
   }
 }

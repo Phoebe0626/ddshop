@@ -2,6 +2,8 @@
   <div class="cart-container">
     <van-nav-bar
       title="购物车"
+      fixed
+      placeholder
     >
       <template v-if="isShowDel" slot="right">
         <span class="right-btn" :class="{disabled: isDisabledDel}" @click="hDel">删除</span>

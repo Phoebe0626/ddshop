@@ -46,7 +46,8 @@
               <span class="cur-price">￥{{ product.price }}</span>
               <span class="ori-price">￥{{ product.origin_price }}</span>
             </div>
-            <van-icon class="cart-icon" name="cart-o" />
+            <van-icon class="cart-icon" name="cart-o" @click.stop="hAddToCart(product)"
+            />
           </div>
           </li>
         </ul>
@@ -59,6 +60,7 @@
 <script>
 import BScroll from 'better-scroll'
 import { Image, Icon } from 'vant'
+import { mapMutations } from 'vuex'
 export default {
   components: {
     [Icon.name]: Icon,
@@ -81,6 +83,20 @@ export default {
     })
   },
   methods: {
+    ...mapMutations(['addToCart']),
+    // 添加到购物车
+    hAddToCart (item) {
+      console.log(item)
+      const good = {
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        count: 1,
+        small_image: item.small_image,
+        checked: true
+      }
+      this.addToCart(good)
+    },
     // 点击右侧标题
     hSelectTitle (index) {
       this.currentIndex = index
