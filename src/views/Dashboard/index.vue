@@ -46,3 +46,9 @@ export default {
   }
 }
 </script>
+
+<style lang="less" scoped>
+/deep/.van-tabbar { // 防止被遮挡
+  z-index: 2;
+}
+</style>
