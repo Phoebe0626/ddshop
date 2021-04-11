@@ -52,14 +52,19 @@
       <div class="text">购物车空空如也~</div>
       <van-button class="btn" type="primary" round @click="$router.push('/dashboard/home')">去逛逛</van-button>
     </div>
+
+    <div class="guess-wrapper">
+      <van-divider>猜你喜欢</van-divider>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
-import { NavBar, Checkbox, CheckboxGroup, Card, SubmitBar, Dialog, Button } from 'vant'
+import { NavBar, Checkbox, CheckboxGroup, Card, SubmitBar, Dialog, Button, Divider } from 'vant'
 export default {
   components: {
+    [Divider.name]: Divider,
     [Button.name]: Button,
     [Dialog.name]: Dialog,
     [SubmitBar.name]: SubmitBar,
