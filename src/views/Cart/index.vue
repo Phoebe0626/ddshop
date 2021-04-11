@@ -55,15 +55,19 @@
 
     <div class="guess-wrapper">
       <van-divider>猜你喜欢</van-divider>
+      <production-item :list="guessList"></production-item>
     </div>
   </div>
 </template>
 
 <script>
+import { getGuessYouLike } from '../../api/cart'
 import { mapGetters, mapMutations } from 'vuex'
 import { NavBar, Checkbox, CheckboxGroup, Card, SubmitBar, Dialog, Button, Divider } from 'vant'
+import ProductionItem from '../Home/components/ProductionItem'
 export default {
   components: {
+    ProductionItem,
     [Divider.name]: Divider,
     [Button.name]: Button,
     [Dialog.name]: Dialog,
@@ -100,13 +104,13 @@ export default {
   },
   data () {
     return {
-      checkedAllData: false
-      // totalPrice: 5050 // 选择的商品总价格
-      // cartListData: [] // 购物车商品列表
+      guessList: [], // 猜你喜欢列表
+      checkedAllData: false // 全选状态
     }
   },
   created () {
     this.checkedAllData = this.checkedAll
+    this.loadGuess()
   },
   methods: {
     ...mapMutations([
@@ -116,6 +120,10 @@ export default {
       'toggleChecked', // 切换商品的选中状态
       'toggleAllChecked' // 切换全选状态
     ]),
+    async loadGuess () {
+      const res = await getGuessYouLike()
+      this.guessList = res.data.product_list
+    },
     // 删除商品
     hDel () {
       if (!this.isDisabledDel) {
