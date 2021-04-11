@@ -9,7 +9,7 @@
           </template>
           吃什么
           </van-tabbar-item>
-        <van-tabbar-item name="cart" icon="setting-o" to="/dashboard/cart">购物车</van-tabbar-item>
+        <van-tabbar-item name="cart" badge="5" icon="cart-o" to="/dashboard/cart">购物车</van-tabbar-item>
         <van-tabbar-item name="my" icon="setting-o" to="/dashboard/my">我的</van-tabbar-item>
       </van-tabbar>
       <keep-alive>

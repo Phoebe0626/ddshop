@@ -66,10 +66,19 @@
                 <div class="cur-price">￥{{ item.price }}</div>
                 <div class="ori-price">￥{{ item.origin_price }}</div>
               </div>
-              <van-icon class="icon-cart" name="cart-o" @click.stop="hAddToCart(item)" />
+              <van-icon class="icon-cart" name="cart-o" @click.stop="hAddToCart($event, item)" />
             </div>
           </li>
         </ul>
+        <transition
+          v-for="(item, index) in balls"
+          :key="index"
+          appear
+          @before-appear="beforeEnter"
+          @after-appear="afterEnter"
+        >
+          <div class="ball" v-if="item"></div>
+        </transition>
       </div>
     </div>
     <!-- 特色专区 -->
@@ -138,7 +147,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 import { Icon, Image, Grid, GridItem, Tab, Tabs, Lazyload, Divider } from 'vant'
 import { getHomeData } from '../../api/home'
 import ProductionItem from './components/ProductionItem'
@@ -162,8 +171,14 @@ export default {
     [Image.name]: Image,
     [Icon.name]: Icon
   },
+  computed: {
+    ...mapGetters(['token'])
+  },
   data () {
     return {
+      elLeft: '',
+      elTop: '',
+      balls: [], // 在动画中的小球集合
       allList: [], // tab - 全部
       specialZone: [], // 特色专区
       flashGoods: [], // 限时抢购
@@ -201,9 +216,21 @@ export default {
   },
   methods: {
     ...mapMutations(['addToCart']),
+    beforeEnter (el) {
+      el.style.transform = `translate(${this.elLeft}px, ${this.elTop}px)`
+    },
+    afterEnter (el) {
+      el.style.transform = 'translate(7.013rem, 16.373rem)'
+      el.style.transition = '.8s all cubic-bezier(.44,-0.48,.93,.67)'
+      this.balls = this.balls.map(item => false)
+    },
     // 添加到购物车
-    hAddToCart (item) {
-      console.log(item)
+    hAddToCart ($event, item) {
+      if (this.token) {
+        this.elLeft = $event.target.getBoundingClientRect().left
+        this.elTop = $event.target.getBoundingClientRect().top
+        this.balls = [...this.balls, true]
+      }
       const good = {
         id: item.id,
         name: item.name,
@@ -355,6 +382,7 @@ export default {
       .goods {
         display: flex;
         .goods-item {
+          position: relative;
           flex-grow: 0;
           flex-shrink: 0;
           flex-basis: 2.8rem;
@@ -395,6 +423,16 @@ export default {
             }
           }
         }
+      }
+      .ball {
+        width: .48rem;
+        height: .48rem;
+        border-radius: 50%;
+        background-color: #43bf6a;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 999;
       }
     }
   }
