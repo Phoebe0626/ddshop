@@ -49,9 +49,10 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
-import { NavBar, Checkbox, CheckboxGroup, Card, SubmitBar } from 'vant'
+import { NavBar, Checkbox, CheckboxGroup, Card, SubmitBar, Dialog } from 'vant'
 export default {
   components: {
+    [Dialog.name]: Dialog,
     [SubmitBar.name]: SubmitBar,
     [Card.name]: Card,
     [CheckboxGroup.name]: CheckboxGroup,
@@ -95,7 +96,15 @@ export default {
     ]),
     // 删除商品
     hDel () {
-      this.delGood()
+      Dialog.confirm({
+        // title: '标题',
+        message: '确定要删除选中商品吗？'
+      }).then(() => {
+        // on confirm
+        this.delGood()
+      }).catch(() => {
+        // on cancel
+      })
     },
     // 增加数量
     hAdd (index) {
@@ -214,4 +223,17 @@ export default {
     }
   }
 }
+</style>
+
+<style>
+  .van-dialog {
+    position: absolute;
+    top: -.533rem;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    height: 4.107rem;
+    transform: translate3d(0, 0, 0);
+  }
 </style>
