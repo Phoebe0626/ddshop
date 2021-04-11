@@ -52,7 +52,7 @@
     <div class="empty" v-else>
       <img src="../../assets/images/cart/empty.png" alt="">
       <div class="text">购物车空空如也~</div>
-      <van-button class="btn" type="primary" round @click="$router.push('/dashboard/home')">去逛逛</van-button>
+      <van-button class="btn" type="primary" round @click="$router.push('/dashboard')">去逛逛</van-button>
     </div>
 
     <div class="guess-wrapper">

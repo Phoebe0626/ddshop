@@ -37,6 +37,12 @@ export default {
       },
       active: this.$route.name
     }
+  },
+  watch: {
+    $route () {
+      // 路由变化时，tabbar 高亮变化
+      this.active = this.$route.name
+    }
   }
 }
 </script>
