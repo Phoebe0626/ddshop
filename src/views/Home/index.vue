@@ -77,7 +77,9 @@
           @before-appear="beforeEnter"
           @after-appear="afterEnter"
         >
-          <div class="ball" v-if="item"></div>
+          <div class="ball" v-if="item">
+            <img :src="curImage" alt="">
+          </div>
         </transition>
       </div>
     </div>
@@ -176,8 +178,9 @@ export default {
   },
   data () {
     return {
-      elLeft: '',
-      elTop: '',
+      curImage: '', // 当前执行动画的图片
+      elLeft: '', // 小球初始位置 left
+      elTop: '', // 小球初始位置 top
       balls: [], // 在动画中的小球集合
       allList: [], // tab - 全部
       specialZone: [], // 特色专区
@@ -227,6 +230,7 @@ export default {
     // 添加到购物车
     hAddToCart ($event, item) {
       if (this.token) {
+        this.curImage = item.small_image
         this.elLeft = $event.target.getBoundingClientRect().left
         this.elTop = $event.target.getBoundingClientRect().top
         this.balls = [...this.balls, true]
@@ -425,14 +429,19 @@ export default {
         }
       }
       .ball {
-        width: .48rem;
-        height: .48rem;
+        width: 1.333rem;
+        height: 1.333rem;
         border-radius: 50%;
         background-color: #43bf6a;
         position: fixed;
         top: 0;
         left: 0;
         z-index: 999;
+        overflow: hidden;
+        img {
+          width: 100%;
+          height: 100%;
+        }
       }
     }
   }
