@@ -36,22 +36,7 @@
     <!-- 特色专区 -->
     <Special :specialZone="specialZone" />
     <!-- 商品 -->
-    <div class="tab">
-      <van-tabs swipeable sticky>
-        <van-tab title="全部">
-          <production-item :list="allList"/>
-        </van-tab>
-        <van-tab title="晚餐">
-          <production-item :list="flashGoods"/>
-        </van-tab>
-        <van-tab title="人气">
-          <production-item :list="allList"/>
-        </van-tab>
-        <van-tab title="心选">
-          <production-item :list="flashGoods"/>
-        </van-tab>
-      </van-tabs>
-    </div>
+    <Tabbar :allList="allList" :flashGoods="flashGoods" />
     <div class="divider">
       <van-divider>没有更多了</van-divider>
     </div>
@@ -64,7 +49,6 @@
 import { mapMutations, mapGetters } from 'vuex'
 import { Icon, Image, Grid, GridItem, Tab, Tabs, Lazyload, Divider } from 'vant'
 import { getHomeData } from '../../api/home'
-import ProductionItem from './components/ProductionItem'
 import Skelemon from './components/Skeleton.vue'
 import Header from './components/Header'
 import Swipe from './components/Swipe'
@@ -72,14 +56,15 @@ import Nav from './components/Nav'
 import Vip from './components/Vip'
 import Flash from './components/Flash'
 import Special from './components/Special'
+import Tabbar from './components/Tabbar'
 export default {
   name: 'Home',
   components: {
+    Tabbar,
     Special,
     Flash,
     Vip,
     Nav,
-    ProductionItem,
     Swipe,
     Header,
     Skelemon,
@@ -220,15 +205,6 @@ export default {
       .iconfont {
         margin-right: .107rem;
       }
-    }
-  }
-
-  // tab 栏
-  .tab {
-    margin-top: .4rem;
-    /deep/.van-tabs__line {
-      width: 1.2rem;
-      background-color: #4fc173;
     }
   }
 

@@ -11,15 +11,26 @@
           <span class="cur-price">￥{{ item.price }}</span>
           <span class="ori-price">￥{{ item.origin_price }}</span>
         </div>
-        <van-icon class="icon-cart" name="cart-o" @click.stop="hAddToCart(item)" />
+        <van-icon class="icon-cart" name="cart-o" @click.stop="hAddToCart($event, item)" />
       </div>
     </div>
+    <transition
+          v-for="(item, index) in balls"
+          :key="index"
+          appear
+          @before-appear="beforeEnter"
+          @after-appear="afterEnter"
+        >
+          <div class="ball" v-if="item">
+            <img :src="curImage" alt="">
+          </div>
+        </transition>
   </div>
 </template>
 
 <script>
 import { Icon, Image } from 'vant'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 export default {
   components: {
     [Image.name]: Image,
@@ -30,12 +41,54 @@ export default {
       type: Array
     }
   },
+  computed: {
+    ...mapGetters(['token'])
+  },
+  data () {
+    return {
+      curProduct: {},
+      curImage: '', // 当前执行动画的图片
+      elLeft: '', // 小球初始位置 left
+      elTop: '', // 小球初始位置 top
+      balls: [] // 在动画中的小球集合
+    }
+  },
   methods: {
     ...mapMutations(['addToCart']),
+    beforeEnter (el) {
+      el.style.transform = `translate(${this.elLeft}px, ${this.elTop}px)`
+    },
+    afterEnter (el) {
+      el.style.transform = 'translate(7.013rem, 16.373rem)'
+      el.style.transition = '.8s all cubic-bezier(1,.1,.9,.8)'
+      this.balls = this.balls.map(item => false)
+      el.addEventListener('transitionend', () => {
+        el.style.display = 'none'
+        this.doAdd()
+      })
+      /** 兼容 */
+      el.addEventListener('animationend', () => {
+        el.style.display = 'none'
+        this.doAdd()
+      })
+    },
+    doAdd () {
+      document.getElementById('cartTab').classList.add('shake')
+      setTimeout(() => {
+        document.getElementById('cartTab').classList.remove('shake')
+      }, 500)
+      this.addToCart(this.curProduct)
+    },
     // 添加到购物车
-    hAddToCart (item) {
-      console.log(item)
-      const good = {
+    hAddToCart ($event, item) {
+      console.log(1)
+      if (this.token) {
+        this.curImage = item.small_image
+        this.elLeft = $event.target.getBoundingClientRect().left
+        this.elTop = $event.target.getBoundingClientRect().top
+        this.balls = [...this.balls, true]
+      }
+      this.curProduct = {
         id: item.id,
         name: item.name,
         price: item.price,
@@ -43,7 +96,6 @@ export default {
         small_image: item.small_image,
         checked: true
       }
-      this.addToCart(good)
     }
   }
 }
@@ -105,6 +157,22 @@ export default {
         background-color: #43bf6a;
         border-radius: 50%;
       }
+    }
+  }
+
+  .ball {
+    width: 1.333rem;
+    height: 1.333rem;
+    border-radius: 50%;
+    background-color: #43bf6a;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    overflow: hidden;
+    img {
+      width: 100%;
+      height: 100%;
     }
   }
 }
