@@ -47,7 +47,8 @@ export default {
         if (!this.leftScroll) {
           this.leftScroll = new Bscroll(this.$refs.leftWrapper, {
             scrollY: true,
-            click: true
+            click: true,
+            disableTouch: false
           })
         }
       })

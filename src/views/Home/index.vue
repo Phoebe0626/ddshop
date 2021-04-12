@@ -211,7 +211,8 @@ export default {
         if (!this.scroll) {
           this.scroll = new Bscroll(this.$refs.wrapper, {
             scrollX: true,
-            eventPassthrough: 'vertical'
+            eventPassthrough: 'vertical',
+            disableTouch: false
           })
         }
       })
@@ -226,6 +227,22 @@ export default {
       el.style.transform = 'translate(7.013rem, 16.373rem)'
       el.style.transition = '.8s all cubic-bezier(.44,-0.48,.93,.67)'
       this.balls = this.balls.map(item => false)
+      el.addEventListener('transitionend', () => {
+        el.style.display = 'none'
+        this.doAdd()
+      })
+      /** 兼容 */
+      el.addEventListener('animationend', () => {
+        el.style.display = 'none'
+        this.doAdd()
+      })
+    },
+    doAdd () {
+      document.getElementById('cartTab').classList.add('shake')
+      setTimeout(() => {
+        document.getElementById('cartTab').classList.remove('shake')
+      }, 500)
+      this.addToCart(this.curProduct)
     },
     // 添加到购物车
     hAddToCart ($event, item) {
@@ -235,7 +252,7 @@ export default {
         this.elTop = $event.target.getBoundingClientRect().top
         this.balls = [...this.balls, true]
       }
-      const good = {
+      this.curProduct = {
         id: item.id,
         name: item.name,
         price: item.price,
@@ -243,7 +260,6 @@ export default {
         small_image: item.small_image,
         checked: true
       }
-      this.addToCart(good)
     },
     // 开始抢购模块的倒计时
     startTimer () {

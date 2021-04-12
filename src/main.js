@@ -5,7 +5,7 @@ import store from './store'
 import { Lazyload } from 'vant'
 import ToTop from './components/ToTop'
 
-import './css/index.less'
+import './css/index.css'
 
 import 'amfe-flexible'
 

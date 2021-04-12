@@ -115,7 +115,8 @@ export default {
       if (!this.titleScroll) {
         this.titleScroll = new BScroll(this.$refs.TitleWrapper, {
           scrollX: true,
-          click: true
+          click: true,
+          disableTouch: false
         })
       } else {
         this.titleScroll.refresh()

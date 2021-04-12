@@ -57,7 +57,6 @@ export default {
     }
     // 保存到本地
     setLocalStore('cart-list', state.cartList)
-    Toast('添加成功')
   },
   // 更新个人信息
   updateUserInfo (state, userInfo) {
