@@ -47,13 +47,24 @@
               <span class="cur-price">￥{{ product.price }}</span>
               <span class="ori-price">￥{{ product.origin_price }}</span>
             </div>
-            <van-icon class="cart-icon" name="cart-o" @click.stop="hAddToCart(product)"
+            <van-icon class="cart-icon" name="cart-o" @click.stop="hAddToCart($event, product)"
             />
           </div>
           </li>
         </ul>
         </div>
       </div>
+      <transition
+          v-for="(item, index) in balls"
+          :key="index"
+          appear
+          @before-appear="beforeEnter"
+          @after-appear="afterEnter"
+        >
+          <div class="ball" v-if="item">
+            <img :src="curImage" alt="">
+          </div>
+        </transition>
     </section>
   </div>
 </template>
@@ -61,7 +72,7 @@
 <script>
 import BScroll from 'better-scroll'
 import { Image, Icon } from 'vant'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 export default {
   components: {
     [Icon.name]: Icon,
@@ -72,8 +83,16 @@ export default {
       type: Array
     }
   },
+  computed: {
+    ...mapGetters(['token'])
+  },
   data () {
     return {
+      curProduct: {},
+      curImage: '', // 当前执行动画的图片
+      elLeft: '', // 小球初始位置 left
+      elTop: '', // 小球初始位置 top
+      balls: [], // 在动画中的小球集合
       currentIndex: 0
     }
   },
@@ -85,10 +104,39 @@ export default {
   },
   methods: {
     ...mapMutations(['addToCart']),
+    beforeEnter (el) {
+      el.style.transform = `translate(${this.elLeft - 20}px, ${this.elTop}px)`
+    },
+    afterEnter (el) {
+      el.style.transform = 'translate(7.013rem, 16.373rem)'
+      el.style.transition = '.8s all cubic-bezier(.44,-0.48,.93,.67)'
+      this.balls = this.balls.map(item => false)
+      el.addEventListener('transitionend', () => {
+        el.style.display = 'none'
+        this.doAdd()
+      })
+      /** 兼容 */
+      el.addEventListener('animationend', () => {
+        el.style.display = 'none'
+        this.doAdd()
+      })
+    },
+    doAdd () {
+      document.getElementById('cartTab').classList.add('shake')
+      setTimeout(() => {
+        document.getElementById('cartTab').classList.remove('shake')
+      }, 500)
+      this.addToCart(this.curProduct)
+    },
     // 添加到购物车
-    hAddToCart (item) {
-      console.log(item)
-      const good = {
+    hAddToCart ($event, item) {
+      if (this.token) {
+        this.curImage = item.small_image
+        this.elLeft = $event.target.getBoundingClientRect().left
+        this.elTop = $event.target.getBoundingClientRect().top
+        this.balls = [...this.balls, true]
+      }
+      this.curProduct = {
         id: item.id,
         name: item.name,
         price: item.price,
@@ -96,7 +144,6 @@ export default {
         small_image: item.small_image,
         checked: true
       }
-      this.addToCart(good)
     },
     // 点击右侧标题
     hSelectTitle (index) {
@@ -240,6 +287,21 @@ export default {
             background-color: #45c16c;
           }
         }
+      }
+    }
+    .ball {
+      width: 1.333rem;
+      height: 1.333rem;
+      border-radius: 50%;
+      background-color: #43bf6a;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 999;
+      overflow: hidden;
+      img {
+        width: 100%;
+        height: 100%;
       }
     }
   }
