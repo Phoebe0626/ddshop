@@ -25,14 +25,7 @@
     <!-- 广告图片 -->
       <van-image :src="homeAd"></van-image>
     <!-- 商品分类 Grid -->
-    <van-grid column-num="5" :border="false">
-      <van-grid-item
-        v-for="(item, index) in itemCate"
-        :key="index"
-        :icon="item.icon_url"
-        :text="item.name"
-      />
-    </van-grid>
+    <Nav :itemCate="itemCate" />
     <!-- 开通会员 -->
     <div class="vip">
       <div class="left">
@@ -156,10 +149,12 @@ import ProductionItem from './components/ProductionItem'
 import Skelemon from './components/Skeleton.vue'
 import Header from './components/Header'
 import Swipe from './components/Swipe'
+import Nav from './components/Nav'
 import Bscroll from 'better-scroll'
 export default {
   name: 'Home',
   components: {
+    Nav,
     ProductionItem,
     Swipe,
     Header,
