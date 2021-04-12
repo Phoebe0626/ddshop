@@ -23,7 +23,7 @@
         ></i>
        </div>
        <div class="center">
-           <img :src="item.small_image" alt="">
+           <van-image :src="item.small_image" lazy-load />
        </div>
        <div class="right">
           <div class="top">
@@ -65,11 +65,12 @@
 <script>
 import { getGuessYouLike } from '../../api/cart'
 import { mapGetters, mapMutations } from 'vuex'
-import { NavBar, Checkbox, CheckboxGroup, Card, SubmitBar, Dialog, Button, Divider } from 'vant'
+import { Image, NavBar, Checkbox, CheckboxGroup, Card, SubmitBar, Dialog, Button, Divider } from 'vant'
 import ProductionItem from '../Home/components/ProductionItem'
 export default {
   components: {
     ProductionItem,
+    [Image.name]: Image,
     [Divider.name]: Divider,
     [Button.name]: Button,
     [Dialog.name]: Dialog,
@@ -156,7 +157,9 @@ export default {
       this.toggleAllChecked(this.checkedAllData)
     },
     // 提交订单
-    hSubmitOrder () {},
+    hSubmitOrder () {
+      this.$router.push('/order')
+    },
     // 切换商品的选中状态
     hToggleChecked (index) {
       this.toggleChecked(index)

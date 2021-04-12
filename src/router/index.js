@@ -21,6 +21,7 @@ const MyAddress = () => import('../views/My/Children/Address/MyAddress.vue')
 const AddAddress = () => import('../views/My/Children/Address/AddAddress.vue')
 const EditAddress = () => import('../views/My/Children/Address/EditAddress.vue')
 const GoodsDetail = () => import('../views/GoodsDetail')
+const Order = () => import('../views/Order')
 // 登录页
 const Login = () => import('../views/Login')
 
@@ -110,6 +111,11 @@ const routes = [
       name: 'GoodsDetail',
       component: GoodsDetail
     }]
+  },
+  {
+    path: '/order',
+    name: 'order',
+    component: Order
   },
   {
     path: '/login',
