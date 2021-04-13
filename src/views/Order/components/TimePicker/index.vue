@@ -5,7 +5,7 @@
       is-link
       title="送达时间"
       label="超过十分钟可获得积分补偿"
-      value="请选择送达时间"
+      :value="tip"
       @click="hClickSelectTime"
     />
     <van-action-sheet v-model="isShowChooseTime" title="请选择送达时间">
@@ -21,16 +21,23 @@
           <!-- 右侧 选择时间 -->
           <div class="right" ref="TimeWrapper">
             <ul class="UlWrapper">
-              <li class="time-item" v-for="(item, index) in timeArr" :key="index">
+              <li
+                class="time-item"
+                :class="{selected : currentTimeIndex === index}"
+                v-for="(item, index) in timeArr"
+                :key="index"
+                @click="hSelectTime(index)"
+              >
                 {{timeArr[index][0].hour >= 10 ? timeArr[index][0].hour : '0' + timeArr[index][0].hour}}:{{timeArr[index][0].min >= 10 ? timeArr[index][0].min : '0' + timeArr[index][0].min}}
                 -
                 {{timeArr[index][1].hour >= 10 ? timeArr[index][1].hour : '0' + timeArr[index][1].hour}}:{{timeArr[index][1].min >= 10 ? timeArr[index][1].min : '0' + timeArr[index][1].min}}
+                <van-icon class="selected-icon" v-show="currentTimeIndex === index" name="success" />
               </li>
             </ul>
           </div>
         </div>
         <div class="bottom">
-          <van-button block type="primary" round>确定</van-button>
+          <van-button block type="primary" round @click="hOk">确定</van-button>
         </div>
       </div>
     </van-action-sheet>
@@ -39,22 +46,44 @@
 
 <script>
 import BScroll from 'better-scroll'
-import { ActionSheet, Cell, Button } from 'vant'
+import { ActionSheet, Cell, Button, Icon } from 'vant'
 import { formatStartTime, createTimeArr } from '@/utils'
 export default {
   components: {
+    [Icon.name]: Icon,
     [Button.name]: Button,
     [Cell.name]: Cell,
     [ActionSheet.name]: ActionSheet
   },
   data () {
     return {
-      timeArr: [],
+      tip: '请选择送达时间',
+      currentTimeIndex: 0, // 当前选择的送达时间
+      timeArr: [], // 送达时间 arr
       currentIndex: 0, // 当前选择的日期 0-今天 1-明天
       isShowChooseTime: false // 显示选择送达时间
     }
   },
   methods: {
+    // 点击确定按钮
+    hOk () {
+      let date
+      if (this.currentIndex) {
+        date = '明天'
+      } else {
+        date = '今天'
+      }
+      // cell 右边提示文字变为选择的时间
+      this.tip = date + this.deliveryTime
+      // 关闭弹层
+      this.isShowChooseTime = false
+    },
+    // 点击时间 li
+    hSelectTime (index) {
+      this.currentTimeIndex = index
+      // 当前选中的时间
+      this.deliveryTime = document.querySelectorAll('.time-item')[index].innerHTML.substring(0, 14)
+    },
     // 送达时间 - 今天
     hClickToday () {
       this.currentIndex = 0
@@ -82,6 +111,7 @@ export default {
   },
   watch: {
     timeArr (newVal, oldVal) {
+      this.currentTimeIndex = 0
       this.$nextTick(() => {
         // better-scroll
         if (!this.timeScroll) {
@@ -137,7 +167,17 @@ export default {
           li {
             height: 1.067rem;
             line-height: 1.067rem;
+            padding-right: .533rem;
             border-bottom: 1px solid #f3f3f3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+          .selected {
+            color: #48be6e;
+          }
+          .selected-icon {
+            font-size: .533rem;
           }
         }
       }
