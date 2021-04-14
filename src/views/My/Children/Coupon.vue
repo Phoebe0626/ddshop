@@ -24,11 +24,11 @@ const coupon = [{
   available: 1,
   condition: '无使用门槛\n最多优惠12元',
   reason: '',
-  value: 150,
+  value: 250,
   name: '优惠券',
   startAt: 1617408000,
   endAt: 1621468800,
-  valueDesc: '1.5',
+  valueDesc: '2.5',
   unitDesc: '元'
 }, {
   available: 1,

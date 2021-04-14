@@ -17,6 +17,8 @@
     <GoodList />
     <!-- 支付方式 -->
     <Pay />
+    <!-- 优惠 -->
+    <Coupon />
   </div>
 </template>
 
@@ -25,8 +27,10 @@ import { NavBar, ContactCard } from 'vant'
 import TimePicker from './components/TimePicker'
 import GoodList from './components/GoodList'
 import Pay from './components/Pay'
+import Coupon from './components/Coupon'
 export default {
   components: {
+    Coupon,
     Pay,
     GoodList,
     TimePicker,
