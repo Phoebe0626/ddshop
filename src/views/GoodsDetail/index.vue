@@ -111,6 +111,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+/deep/.van-goods-action {
+  z-index: 1000;
+}
 .detail-container {
   background-color: #f5f5f5;
   .wrapper {

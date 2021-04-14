@@ -4,6 +4,7 @@
       title="购物车"
       fixed
       placeholder
+      safe-area-inset-top
     >
       <template v-if="isShowDel" slot="right">
         <span class="right-btn" :class="{disabled: isDisabledDel}" @click="hDel">删除</span>
@@ -45,7 +46,13 @@
       </div>
     </div>
     <!-- 结算 -->
-    <van-submit-bar v-if="isShowDel" :price="totalPrice" button-text="提交订单" @submit="hSubmitOrder">
+    <van-submit-bar
+      v-if="isShowDel"
+      :price="totalPrice"
+      button-text="提交订单"
+      @submit="hSubmitOrder"
+      safe-area-inset-bottom
+    >
       <van-checkbox v-model="checkedAllData" @click="hToggleAllChecked">全选</van-checkbox>
     </van-submit-bar>
 
@@ -179,6 +186,10 @@ export default {
 }
 /deep/.van-submit-bar {
   bottom: 1.333rem;
+  background-color: transparent;
+  .van-submit-bar__bar {
+    background-color: #fff;
+  }
 }
 /deep/.van-checkbox__icon--checked .van-icon{
   background-color: #629357;
@@ -187,6 +198,7 @@ export default {
 .cart-container {
   width: 100%;
   height: 100%;
+  padding-bottom: 1.333rem;
   background-color: #f5f5f5;
   .right-btn {
     color: #45c763;
@@ -293,8 +305,8 @@ export default {
 
 <style>
   .van-dialog {
-    position: absolute;
-    top: -.533rem;
+    position: fixed;
+    top: 0;
     bottom: 0;
     left: 0;
     right: 0;

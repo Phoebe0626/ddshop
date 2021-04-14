@@ -126,6 +126,8 @@ export default {
         this.elLeft = $event.target.getBoundingClientRect().left
         this.elTop = $event.target.getBoundingClientRect().top
         this.balls = [...this.balls, true]
+      } else {
+        this.$router.push('/login')
       }
       this.curProduct = {
         id: item.id,

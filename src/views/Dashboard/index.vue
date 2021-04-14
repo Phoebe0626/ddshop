@@ -1,6 +1,11 @@
 <template>
   <div class="footer">
-      <van-tabbar v-model="active" active-color="#3bba63">
+      <van-tabbar
+        fixed
+        v-model="active"
+        active-color="#3bba63"
+        safe-area-inset-bottom
+      >
         <van-tabbar-item name="home" icon="home-o" to='/dashboard/home'>首页</van-tabbar-item>
         <van-tabbar-item name="category" icon="apps-o" to="/dashboard/category">分类</van-tabbar-item>
         <van-tabbar-item name="eat" to="/dashboard/eat">
@@ -60,6 +65,6 @@ export default {
 
 <style lang="less" scoped>
 /deep/.van-tabbar { // 防止被遮挡
-  z-index: 2;
+  z-index: 999;
 }
 </style>
