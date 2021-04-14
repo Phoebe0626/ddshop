@@ -84,6 +84,7 @@
 
 <script>
 import { NavBar, CountDown, Divider, Icon, GoodsAction, GoodsActionButton, GoodsActionIcon } from 'vant'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   components: {
     [GoodsAction.name]: GoodsAction,
@@ -94,6 +95,9 @@ export default {
     [CountDown.name]: CountDown,
     [NavBar.name]: NavBar
   },
+  computed: {
+    ...mapGetters(['token'])
+  },
   data () {
     return {
       time: 2 * 60 * 60 * 1000,
@@ -102,10 +106,29 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['addToCart']),
     // 添加到购物车
-    hAddtoCart () {},
+    hAddtoCart () {
+      const item = this.$route.query
+      const curProduct = {
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        count: 1,
+        small_image: item.small_image,
+        checked: true
+      }
+      if (this.token) {
+        this.addToCart(curProduct)
+        this.$toast('添加成功')
+      } else {
+        this.$router.push('/login')
+      }
+    },
     // 跳转到购物车页面
-    hGotoCart () {}
+    hGotoCart () {
+      this.$router.push('/dashboard/cart')
+    }
   }
 }
 </script>

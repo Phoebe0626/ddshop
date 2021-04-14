@@ -1,6 +1,6 @@
 <template>
   <div class="production-item-container">
-    <div class="item" v-for="(item, index) in list" :key="index" @click="$router.push(`/GoodsDetail?name=${item.name}&spec=${item.spec}&small_image=${item.small_image}&total_sales=${item.total_sales}&price=${item.price}&origin_price=${item.origin_price}`)">
+    <div class="item" v-for="(item, index) in list" :key="index" @click="$router.push(`/GoodsDetail?id=${item.id}&name=${item.name}&spec=${item.spec}&small_image=${item.small_image}&total_sales=${item.total_sales}&price=${item.price}&origin_price=${item.origin_price}`)">
       <div class="image">
         <van-image lazy-load :src="item.small_image"></van-image>
       </div>

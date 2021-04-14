@@ -13,7 +13,10 @@
     />
     <!-- 选择送达时间 -->
     <TimePicker />
+    <!-- 订单预览 -->
     <GoodList />
+    <!-- 支付方式 -->
+    <Pay />
   </div>
 </template>
 
@@ -21,8 +24,10 @@
 import { NavBar, ContactCard } from 'vant'
 import TimePicker from './components/TimePicker'
 import GoodList from './components/GoodList'
+import Pay from './components/Pay'
 export default {
   components: {
+    Pay,
     GoodList,
     TimePicker,
     [ContactCard.name]: ContactCard,
@@ -42,6 +47,6 @@ export default {
 
 <style lang="less" scoped>
 .order-container {
-
+  background-color: #f5f5f5;
 }
 </style>

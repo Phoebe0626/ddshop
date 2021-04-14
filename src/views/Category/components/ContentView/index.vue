@@ -29,7 +29,7 @@
             class="product-item"
             v-for="(product, i) in item.products"
             :key="i"
-            @click="$router.push(`/GoodsDetail?name=${product.name}&spec=${product.spec}&small_image=${product.small_image}&total_sales=${product.total_sales}&price=${product.price}&origin_price=${product.origin_price}`)"
+            @click="$router.push(`/GoodsDetail?id=${product.id}&name=${product.name}&spec=${product.spec}&small_image=${product.small_image}&total_sales=${product.total_sales}&price=${product.price}&origin_price=${product.origin_price}`)"
           >
           <div class="product-image">
             <van-image
