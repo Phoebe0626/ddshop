@@ -58,7 +58,7 @@ export default {
   data () {
     return {
       tip: '请选择送达时间',
-      currentTimeIndex: 0, // 当前选择的送达时间
+      currentTimeIndex: '', // 当前选择的送达时间
       timeArr: [], // 送达时间 arr
       currentIndex: 0, // 当前选择的日期 0-今天 1-明天
       isShowChooseTime: false // 显示选择送达时间
@@ -111,7 +111,9 @@ export default {
   },
   watch: {
     timeArr (newVal, oldVal) {
-      this.currentTimeIndex = 0
+      if (this.currentTimeIndex) {
+        this.currentTimeIndex = 0
+      }
       this.$nextTick(() => {
         // better-scroll
         if (!this.timeScroll) {

@@ -13,14 +13,17 @@
     />
     <!-- 选择送达时间 -->
     <TimePicker />
+    <GoodList />
   </div>
 </template>
 
 <script>
 import { NavBar, ContactCard } from 'vant'
 import TimePicker from './components/TimePicker'
+import GoodList from './components/GoodList'
 export default {
   components: {
+    GoodList,
     TimePicker,
     [ContactCard.name]: ContactCard,
     [NavBar.name]: NavBar
