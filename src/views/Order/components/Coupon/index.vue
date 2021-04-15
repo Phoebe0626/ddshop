@@ -23,9 +23,9 @@
           @exchange="hExchange"
         />
       </van-popup>
-      <van-cell title="使用800支付宝支付" label="￥8.00">
+      <van-cell title="使用800积分支付" label="￥8.00">
         <template slot="default">
-          <van-switch v-model="useExtra" active-color="#07c160"></van-switch>
+          <van-switch v-model="use" active-color="#07c160"></van-switch>
         </template>
       </van-cell>
     </van-cell-group>
@@ -65,21 +65,32 @@ export default {
     [Cell.name]: Cell,
     [CellGroup.name]: CellGroup
   },
+  props: {
+    usePoint: {
+      type: Boolean,
+      default () {
+        return false
+      }
+    }
+  },
   data () {
     return {
+      use: this.usePoint,
       code: '', // 兑换码
       disabledCoupons: [], // 不可用优惠券列表
       chosenCoupon: -1,
       coupons: coupon, // 优惠券列表
-      useExtra: false, // 使用支付宝优惠
-      isShow: true // 显示优惠券弹层
+      // usePoint: false, // 使用支付宝优惠
+      isShow: false // 显示优惠券弹层
     }
   },
   methods: {
+    // 切换优惠券
     hChange (index) {
       this.isShow = false
       this.chosenCoupon = index
     },
+    // 兑换优惠券
     hExchange (code) {
       if (this.code === '123') {
         this.coupons.push(coupon[0])
@@ -95,13 +106,31 @@ export default {
       }
       this.code = ''
     }
+  },
+  watch: {
+    // 选择优惠券的时候 将优惠的金额传递给父组件
+    chosenCoupon (newVal, oldVal) {
+      let discount = 0
+      if (newVal === -1) {
+        this.$emit('change-coupon', discount)
+      } else {
+        discount = coupon[newVal].value
+        this.$emit('change-coupon', discount)
+      }
+    },
+    // 是否使用积分 同步到父组件
+    use (newVal, oldVal) {
+      // 同步更新父组件的值
+      this.$emit('update:use-point', newVal)
+    }
   }
 }
+
 </script>
 
 <style lang="less" scoped>
 
-/deep/.van-coupon-list__bottom.van-button {
+/deep/.van-coupon-list__bottom .van-button {
   background-color: #fff;
   border-color: #fff;
   color: #333;
