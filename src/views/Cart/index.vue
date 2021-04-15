@@ -47,6 +47,7 @@
     </div>
     <!-- 结算 -->
     <van-submit-bar
+      :disabled="isDisabledDel"
       v-if="isShowDel"
       :price="totalPrice"
       button-text="提交订单"
