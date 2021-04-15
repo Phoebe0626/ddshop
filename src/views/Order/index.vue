@@ -7,9 +7,17 @@
     ></van-nav-bar>
     <!-- 选择收货地址 -->
     <van-contact-card
+      v-if="!addressObj"
       type="add"
       @click="hChooseAddress"
       add-text="选择收货地址"
+    />
+    <van-contact-card
+      v-else
+      type="edit"
+      :name="addressObj.name"
+      :tel="addressObj.tel"
+      @click="hChooseAddress"
     />
     <!-- 选择送达时间 -->
     <TimePicker />
@@ -49,6 +57,7 @@ import GoodList from './components/GoodList'
 import Pay from './components/Pay'
 import Coupon from './components/Coupon'
 import { mapGetters } from 'vuex'
+let address = null
 export default {
   components: {
     Coupon,
@@ -66,7 +75,6 @@ export default {
     ...mapGetters(['cartList']),
     // 实付
     price () {
-      console.log(this.coupon)
       let total = this.total_price.substring(1) * 100
       if (this.usePoint) { // 使用积分
         total = total - 800
@@ -91,10 +99,18 @@ export default {
   },
   data () {
     return {
+      addressObj: address,
       coupon: 0, // 优惠券
       usePoint: false, // 是否使用积分
       remarks: '' // 备注
     }
+  },
+  // 接收"address"参数
+  beforeRouteEnter (to, from, next) {
+    if (from.name === 'myAddress') {
+      address = from.params.address
+    }
+    next()
   },
   methods: {
     // 使用优惠券
@@ -104,7 +120,9 @@ export default {
     // 结算
     hSubmit () {},
     // 选择地址
-    hChooseAddress () {},
+    hChooseAddress () {
+      this.$router.push('/dashboard/my/myAddress')
+    },
     onSelect () {}
   }
 }

@@ -17,6 +17,7 @@
       default-tag-text="默认"
       @add="hAdd"
       @edit="hEdit"
+      @select="hSelect"
     />
     <transition name="slideUpDown" mode="out-in">
       <router-view class="router-view"/>
@@ -33,17 +34,17 @@ export default {
     [NavBar.name]: NavBar
   },
   computed: {
-    ...mapGetters(['userAddress']),
+    ...mapGetters(['userAddress'])
     // 默认地址为选中状态
-    chosenId () {
-      let id
-      this.userAddress.forEach(item => {
-        if (item.isDefault) {
-          id = item.id
-        }
-      })
-      return id || 0
-    }
+    // chosenId () {
+    //   let id
+    //   this.userAddress.forEach(item => {
+    //     if (item.isDefault) {
+    //       id = item.id
+    //     }
+    //   })
+    //   return id || 0
+    // }
   },
   data () {
     return {
@@ -55,6 +56,12 @@ export default {
     console.log(1)
   },
   methods: {
+    // 切换选中的地址
+    hSelect (item) {
+      console.log(item)
+      this.$route.params.address = item
+      this.$router.back()
+    },
     // 新增地址
     hAdd () {
       this.$router.push('/dashboard/my/myAddress/addAddress')
@@ -79,6 +86,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+/deep/.van-address-item .van-radio__icon--checked .van-icon {
+  background-color: #45c763;
+  border-color: #45c763;
+}
 #address-container {
   background-color: #fff;
   // 没有地址列表时显示的图片
