@@ -20,7 +20,7 @@
       @click="hChooseAddress"
     />
     <!-- 选择送达时间 -->
-    <TimePicker />
+    <TimePicker @change-time="hChangeTime" />
     <!-- 订单预览 -->
     <GoodList />
     <!-- 支付方式 -->
@@ -99,6 +99,7 @@ export default {
   },
   data () {
     return {
+      deliveryTime: '',
       addressObj: address,
       coupon: 0, // 优惠券
       usePoint: false, // 是否使用积分
@@ -118,17 +119,31 @@ export default {
     next()
   },
   methods: {
+    // 选择送达时间
+    hChangeTime (time) {
+      console.log(time)
+      this.deliveryTime = time
+    },
     // 使用优惠券
     hChangeCoupon (discount) {
       this.coupon = discount // 此时的单位是"分"
     },
     // 结算
-    hSubmit () {},
+    hSubmit () {
+      if (!this.addressObj) {
+        this.$toast('请选择地址')
+        return
+      }
+      if (!this.deliveryTime) {
+        this.$toast('请选择送达时间')
+        return
+      }
+      this.$toast('提交订单')
+    },
     // 选择地址
     hChooseAddress () {
       this.$router.push('/dashboard/my/myAddress')
-    },
-    onSelect () {}
+    }
   }
 }
 </script>

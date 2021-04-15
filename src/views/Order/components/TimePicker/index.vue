@@ -77,6 +77,7 @@ export default {
       this.tip = date + this.deliveryTime
       // 关闭弹层
       this.isShowChooseTime = false
+      this.$emit('change-time', this.deliveryTime)
     },
     // 点击时间 li
     hSelectTime (index) {
