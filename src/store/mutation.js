@@ -87,6 +87,16 @@ export default {
     removeLocalStore('user-birth')
     removeLocalStore('user-address')
   },
+  // 保存选中的地址
+  selectAddress (state, index) {
+    state.userAddress.forEach((item, index) => {
+      if (item.selected) {
+        item.selected = false
+      }
+    })
+    state.userAddress[index].selected = true
+    setLocalStore('user-address', state.userAddress)
+  },
   // 新增和编辑地址
   addUserAddress (state, obj) {
     if (obj.address.isDefault) {

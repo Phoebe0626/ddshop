@@ -72,7 +72,7 @@ export default {
     [NavBar.name]: NavBar
   },
   computed: {
-    ...mapGetters(['cartList']),
+    ...mapGetters(['cartList', 'userAddress']),
     // 实付
     price () {
       let total = this.total_price.substring(1) * 100
@@ -104,6 +104,11 @@ export default {
       usePoint: false, // 是否使用积分
       remarks: '' // 备注
     }
+  },
+  mounted () {
+    this.userAddress.forEach(item => {
+      if (item.selected) this.addressObj = item
+    })
   },
   // 接收"address"参数
   beforeRouteEnter (to, from, next) {

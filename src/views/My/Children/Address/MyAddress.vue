@@ -26,7 +26,7 @@
 </template>
 <script>
 import { NavBar, AddressList } from 'vant'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'MyAddress',
   components: {
@@ -35,16 +35,6 @@ export default {
   },
   computed: {
     ...mapGetters(['userAddress'])
-    // 默认地址为选中状态
-    // chosenId () {
-    //   let id
-    //   this.userAddress.forEach(item => {
-    //     if (item.isDefault) {
-    //       id = item.id
-    //     }
-    //   })
-    //   return id || 0
-    // }
   },
   data () {
     return {
@@ -52,15 +42,17 @@ export default {
     }
   },
   mounted () {
-    this.chosenAddressId = this.chosenId
-    console.log(1)
+    this.userAddress.forEach((item, index) => {
+      if (item.selected) this.chosenAddressId = index
+    })
   },
   methods: {
+    ...mapMutations(['selectAddress']),
     // 切换选中的地址
-    hSelect (item) {
-      console.log(item)
+    hSelect (item, index) {
       this.$route.params.address = item
       this.$router.back()
+      this.selectAddress(index)
     },
     // 新增地址
     hAdd () {
