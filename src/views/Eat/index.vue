@@ -37,10 +37,9 @@
     </div>
     <!-- 所有菜单分类 -->
     <transition
-      v-if="isShowAllCate"
       name="dropdown"
     >
-      <div class="all-cate">
+      <div class="all-cate" v-show="isShowAllCate">
         <div class="title">菜单分类</div>
         <div class="cate">
           <div
@@ -55,7 +54,7 @@
       </div>
     </transition>
     <!-- 菜谱 -->
-    <div class="recipe" v-else>
+    <div class="recipe" v-show="!isShowAllCate">
       <ul>
         <li
         class="item"
@@ -225,9 +224,10 @@ export default {
   }
   // 下拉菜单
   .all-cate {
-    // height: 10.933rem;
+    height: 12.8rem;
     font-size: .32rem;
     color: #4c4c4c;
+    transform-origin: top;
     .title {
       margin-top: .32rem;
       margin-bottom: .267rem;
@@ -295,20 +295,14 @@ export default {
   }
 }
 
-.dropdown-enter-active{
-  transition: all .3s ease-in;
+.dropdown-leave-active,
+.dropdown-enter-active {
+  transition: all 0.2s ease-in-out;
 }
-.dropdown-leave-active {
-  transition: all .3s ease-out
-}
-
-.dropdown-enter,
-.dropdown-leave-to {
+.dropdown-leave-to,
+.dropdown-enter{
+  transform: scaleY(0);
   opacity: 0;
 }
 
-// .dropdown-enter-to,
-// .dropdown-leave {
-//   height: 10.933rem;
-// }
 </style>
