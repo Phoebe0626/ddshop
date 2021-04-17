@@ -37,9 +37,10 @@
     </div>
     <!-- 所有菜单分类 -->
     <transition
+      v-if="isShowAllCate"
       name="dropdown"
     >
-      <div v-if="isShowAllCate" class="all-cate">
+      <div class="all-cate">
         <div class="title">菜单分类</div>
         <div class="cate">
           <div
@@ -53,26 +54,62 @@
         </div>
       </div>
     </transition>
+    <!-- 菜谱 -->
+    <div class="recipe" v-else>
+      <ul>
+        <li
+        class="item"
+        v-for="(item, index) in recipeList"
+        :key="index"
+        >
+          <!-- 封面图片 -->
+          <van-image
+            fit="cover"
+            class="cover"
+            :src="item.image"
+            radius="8px"
+          ></van-image>
+          <!-- 标题 -->
+          <div class="title">
+            {{ item.name }}
+          </div>
+          <!-- 作者 -->
+          <div class="author">
+            <van-image
+              round
+              :src="item.author_avatar"
+              width="35"
+              height="35"
+            ></van-image>
+            <div class="name">{{item.author_name}}</div>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
-import { Search, Icon } from 'vant'
-import { getTodayMenuCategoryList } from '../../api/eat'
+import { Search, Icon, Image } from 'vant'
+import { getTodayMenuCategoryList, getTodayMenuDetail } from '../../api/eat'
 import BScroll from 'better-scroll'
 export default {
   components: {
+    [Image.name]: Image,
     [Icon.name]: Icon,
     [Search.name]: Search
   },
   data () {
     return {
+      recipeList: [], // 菜谱列表
+      params: 'lk01', // 参数 - 获取菜谱
       currentIndex: 0, // 当前选中的分类
-      isShowAllCate: true, // 显示菜单分类 下拉菜单
+      isShowAllCate: false, // 显示菜单分类 下拉菜单
       categoryList: [] // 菜单分类
     }
   },
   created () {
+    this.loadRecipeList()
     this.loadTodayMenuCategoryList().then(() => {
       this.$nextTick(() => {
         if (!this.cateScroll) {
@@ -84,6 +121,11 @@ export default {
     })
   },
   methods: {
+    async loadRecipeList () {
+      const res = await getTodayMenuDetail(this.params)
+      console.log(res)
+      this.recipeList = res.data.big_recommend.list
+    },
     // 初始化 better-scroll
     initCateScroll () {
       const ul = document.querySelector('.ulWrapper')
@@ -150,7 +192,7 @@ export default {
     align-items: center;
     height: .693rem;
     padding-left: .213rem;
-    margin-top: .16rem;
+    margin-top: .32rem;
     .left {
       width: 80%;
       padding-left: .053rem;
@@ -207,6 +249,47 @@ export default {
           border-radius: .373rem;
           text-align: center;
         }
+      }
+    }
+  }
+  // 菜谱
+  .recipe {
+    margin-top: .4rem;
+    ul {
+      .item {
+        display: inline-block;
+        width: 50%;
+        box-sizing: border-box;
+        padding: 0 .267rem;
+        margin-bottom: .267rem;
+        overflow: hidden;
+        .cover {
+          height: 3.333rem;
+        }
+        .title {
+          margin-top: .213rem;
+          margin-bottom: .32rem;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          font-size: .427rem;
+          font-weight: 700;
+        }
+        .author {
+          display: flex;
+          align-items: center;
+          .name {
+            margin-left: .267rem;
+            font-size: .373rem;
+            color: #999999;
+          }
+        }
+      }
+      li:nth-child(even) {
+        padding-left: .133rem;
+      }
+      li:nth-child(odd) {
+        padding-right: .133rem;
       }
     }
   }

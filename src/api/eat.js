@@ -9,7 +9,6 @@ export const getTodayMenuCategoryList = function () {
 
 export const getTodayMenuDetail = function (params) {
   return request({
-    url: 'recipe/menulist',
-    params
+    url: 'recipe/menulist/' + params
   })
 }
