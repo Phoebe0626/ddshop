@@ -54,8 +54,8 @@
       </div>
     </transition>
     <!-- 菜谱 -->
-    <div class="recipe" v-show="!isShowAllCate">
-      <ul>
+    <div class="recipe" v-show="!isShowAllCate" ref="RecipeWrapper">
+      <ul ref="RecipeInnerWrapper">
         <li
         class="item"
         v-for="(item, index) in recipeList"
@@ -66,6 +66,7 @@
             fit="cover"
             class="cover"
             :src="item.image"
+            lazy-load
             radius="8px"
           ></van-image>
           <!-- 标题 -->
@@ -79,29 +80,34 @@
               :src="item.author_avatar"
               width="35"
               height="35"
+              lazy-load
             ></van-image>
             <div class="name">{{item.author_name}}</div>
           </div>
         </li>
       </ul>
     </div>
+    <van-loading class="loading" v-show="isShowLoading" />
   </div>
 </template>
 
 <script>
-import { Search, Icon, Image } from 'vant'
+import { Search, Icon, Image, Loading } from 'vant'
 import { getTodayMenuCategoryList, getTodayMenuDetail } from '../../api/eat'
 import BScroll from 'better-scroll'
 export default {
   components: {
+    [Loading.name]: Loading,
     [Image.name]: Image,
     [Icon.name]: Icon,
     [Search.name]: Search
   },
   data () {
     return {
+      isShowNoMore: false,
+      isShowLoading: false, // 显示 loading 图标
       recipeList: [], // 菜谱列表
-      params: 'lk01', // 参数 - 获取菜谱
+      params: 1, // 参数 - 获取菜谱
       currentIndex: 0, // 当前选中的分类
       isShowAllCate: false, // 显示菜单分类 下拉菜单
       categoryList: [] // 菜单分类
@@ -120,12 +126,35 @@ export default {
     })
   },
   methods: {
-    async loadRecipeList () {
-      const res = await getTodayMenuDetail(this.params)
-      console.log(res)
-      this.recipeList = res.data.big_recommend.list
+    // 上拉加载
+    async hPullingUp () {
+      this.params++
+      await this.loadRecipeList()
+      this.recipeScroll.finishPullUp()
     },
-    // 初始化 better-scroll
+    // 初始化菜谱的 better-scroll
+    initRecipeScroll () {
+      this.recipeScroll = new BScroll(this.$refs.RecipeWrapper, {
+        probeType: 3,
+        scrollY: true,
+        click: true,
+        disableTouch: false,
+        pullUpLoad: true
+      })
+    },
+    // 获取菜谱列表
+    async loadRecipeList () {
+      try {
+        this.isShowLoading = true
+        const params = this.params < 10 ? 'lk0' + this.params : 'lk' + this.params
+        const res = await getTodayMenuDetail(params)
+        this.recipeList = [...this.recipeList, ...res.data.big_recommend.list]
+      } catch (err) {
+        this.$toast('没有更多了')
+      }
+      this.isShowLoading = false
+    },
+    // 初始化分类 better-scroll
     initCateScroll () {
       const ul = document.querySelector('.ulWrapper')
       const li = document.querySelectorAll('.cate-item')
@@ -151,6 +180,18 @@ export default {
     }
   },
   watch: {
+    // 菜谱 list
+    recipeList () {
+      this.$nextTick(() => {
+        if (!this.recipeScroll) {
+          this.initRecipeScroll()
+          this.recipeScroll.on('pullingUp', this.hPullingUp)
+        } else {
+          this.recipeScroll.refresh()
+        }
+      })
+    },
+    // 当前选中分类
     currentIndex (newVal, oldVal) {
       this.cateScroll.scrollToElement(document.querySelectorAll('.cate-item')[newVal], 300)
     }
@@ -254,7 +295,13 @@ export default {
   }
   // 菜谱
   .recipe {
+    // height: 100vh;
+    position: absolute;
+    top: 3.2rem;
+    left: 0;
+    bottom: 1.333rem;
     margin-top: .4rem;
+    overflow: hidden;
     ul {
       .item {
         display: inline-block;
@@ -293,6 +340,13 @@ export default {
       }
     }
   }
+}
+
+.loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .dropdown-leave-active,
