@@ -11,89 +11,92 @@
       />
       <svg-icon class="icon" iconClass="collection"></svg-icon>
     </header>
-    <!-- 标题 今日菜单 -->
-    <div class="title">
-      <span>今日菜单</span>
-    </div>
-    <!-- 分类 -->
-    <div class="cate">
-      <div class="left" ref="CateWrapper">
-        <ul class="ulWrapper">
-          <li
-            class="cate-item"
-            :class="{selected: currentIndex === index}"
-            v-for="(item, index) in categoryList"
-            :key="item.id"
-            @click="currentIndex=index"
-          >{{ item.name }}</li>
-        </ul>
+    <Skeleton v-if="!recipeList.length" />
+    <div v-else>
+      <!-- 标题 今日菜单 -->
+      <div class="title">
+        <span>今日菜单</span>
       </div>
-      <div class="right" @click="isShowAllCate=!isShowAllCate">
-        <span v-if="!isShowAllCate">全部</span>
-        <span v-else>收起</span>
-        <van-icon v-if="!isShowAllCate" class="dropdown-icon" name="arrow-down" />
-        <van-icon v-else class="dropdown-icon" name="arrow-up" />
-      </div>
-    </div>
-    <!-- 所有菜单分类 -->
-    <transition
-      name="dropdown"
-    >
-      <div class="all-cate" v-show="isShowAllCate">
-        <div class="title">菜单分类</div>
-        <div class="cate">
-          <div
-            class="item"
-            v-for="(item, index) in categoryList"
-            :key="item.id"
-            @click="currentIndex = index; isShowAllCate=false"
-          >
-            <span>{{ item.name }}</span>
-          </div>
+      <!-- 分类 -->
+      <div class="cate">
+        <div class="left" ref="CateWrapper">
+          <ul class="ulWrapper">
+            <li
+              class="cate-item"
+              :class="{selected: currentIndex === index}"
+              v-for="(item, index) in categoryList"
+              :key="item.id"
+              @click="currentIndex=index"
+            >{{ item.name }}</li>
+          </ul>
+        </div>
+        <div class="right" @click="isShowAllCate=!isShowAllCate">
+          <span v-if="!isShowAllCate">全部</span>
+          <span v-else>收起</span>
+          <van-icon v-if="!isShowAllCate" class="dropdown-icon" name="arrow-down" />
+          <van-icon v-else class="dropdown-icon" name="arrow-up" />
         </div>
       </div>
-    </transition>
-    <!-- 菜谱 -->
-    <div class="recipe" v-show="!isShowAllCate" ref="RecipeWrapper">
-      <ul ref="RecipeInnerWrapper">
-        <li
-        class="item"
-        v-for="(item, index) in recipeList"
-        :key="index"
-        >
-          <!-- 封面图片 -->
-          <van-image
-            fit="cover"
-            class="cover"
-            :src="item.image"
-            lazy-load
-            radius="8px"
-          >
-            <template v-slot:loading>
-              <div class="loading-img"></div>
-            </template>
-          </van-image>
-          <!-- 标题 -->
-          <div class="title">
-            {{ item.name }}
+      <!-- 所有菜单分类 -->
+      <transition
+        name="dropdown"
+      >
+        <div class="all-cate" v-show="isShowAllCate">
+          <div class="title">菜单分类</div>
+          <div class="cate">
+            <div
+              class="item"
+              v-for="(item, index) in categoryList"
+              :key="item.id"
+              @click="currentIndex = index; isShowAllCate=false"
+            >
+              <span>{{ item.name }}</span>
+            </div>
           </div>
-          <!-- 作者 -->
-          <div class="author">
+        </div>
+      </transition>
+      <!-- 菜谱 -->
+      <div class="recipe" v-show="!isShowAllCate" ref="RecipeWrapper">
+        <ul ref="RecipeInnerWrapper">
+          <li
+          class="item"
+          v-for="(item, index) in recipeList"
+          :key="index"
+          >
+            <!-- 封面图片 -->
             <van-image
-              round
-              :src="item.author_avatar"
-              width="35"
-              height="35"
+              fit="cover"
+              class="cover"
+              :src="item.image"
               lazy-load
+              radius="8px"
             >
               <template v-slot:loading>
-                <img width="35" height="35" src="../../assets/images/placeholderImg/product-img-load.png" alt="">
+                <div class="loading-img"></div>
               </template>
             </van-image>
-            <div class="name">{{item.author_name}}</div>
-          </div>
-        </li>
-      </ul>
+            <!-- 标题 -->
+            <div class="title">
+              {{ item.name }}
+            </div>
+            <!-- 作者 -->
+            <div class="author">
+              <van-image
+                round
+                :src="item.author_avatar"
+                width="35"
+                height="35"
+                lazy-load
+              >
+                <template v-slot:loading>
+                  <img width="35" height="35" src="../../assets/images/placeholderImg/product-img-load.png" alt="">
+                </template>
+              </van-image>
+              <div class="name">{{item.author_name}}</div>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
     <van-loading class="loading" v-show="isShowLoading" />
   </div>
@@ -103,8 +106,10 @@
 import { Search, Icon, Image, Loading } from 'vant'
 import { getTodayMenuCategoryList, getTodayMenuDetail } from '../../api/eat'
 import BScroll from 'better-scroll'
+import Skeleton from './components/Skeleton'
 export default {
   components: {
+    Skeleton,
     [Loading.name]: Loading,
     [Image.name]: Image,
     [Icon.name]: Icon,
@@ -112,6 +117,7 @@ export default {
   },
   data () {
     return {
+      isShowSkeleton: false,
       isShowNoMore: false,
       isShowLoading: false, // 显示 loading 图标
       recipeList: [], // 菜谱列表
