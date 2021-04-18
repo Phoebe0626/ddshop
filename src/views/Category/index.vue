@@ -1,33 +1,38 @@
 <template>
   <div class="category-container">
     <Header></Header>
-    <!-- 左侧分类 -->
-    <div class="cate-wrapper" ref="leftWrapper">
-      <ul>
-        <li
-          class="cate-item"
-          v-for="(item, index) in category"
-          :class="{ selected: currentIndex === index }"
-          :key="item.id"
-          @click="hSelectCate(index)"
-          ref="MenuList"
-        >
-          <span>{{ item.name }}</span>
-        </li>
-      </ul>
+    <Skeleton v-if="!rightContent.length"/>
+    <div v-else>
+      <!-- 左侧分类 -->
+      <div class="cate-wrapper" ref="leftWrapper">
+        <ul>
+          <li
+            class="cate-item"
+            v-for="(item, index) in category"
+            :class="{ selected: currentIndex === index }"
+            :key="item.id"
+            @click="hSelectCate(index)"
+            ref="MenuList"
+          >
+            <span>{{ item.name }}</span>
+          </li>
+        </ul>
+      </div>
+      <!-- 右侧数据 -->
+      <content-view :rightContent=rightContent></content-view>
     </div>
-    <!-- 右侧数据 -->
-    <content-view :rightContent=rightContent></content-view>
   </div>
 </template>
 
 <script>
 import Header from './components/Header'
 import ContentView from './components/ContentView'
+import Skeleton from './components/Skeleton'
 import Bscroll from 'better-scroll'
 import { getCate, getCateDetail } from '../../api/cate'
 export default {
   components: {
+    Skeleton,
     ContentView,
     Header
   },
