@@ -2,7 +2,11 @@
   <div class="production-item-container">
     <div class="item" v-for="(item, index) in list" :key="index" @click="$router.push(`/GoodsDetail?id=${item.id}&name=${item.name}&spec=${item.spec}&small_image=${item.small_image}&total_sales=${item.total_sales}&price=${item.price}&origin_price=${item.origin_price}`)">
       <div class="image">
-        <van-image lazy-load :src="item.small_image"></van-image>
+        <van-image lazy-load :src="item.small_image">
+          <template v-slot:loading>
+            <img width="178" height="178" src="../../../../assets/images/placeholderImg/product-img-load.png" alt="">
+          </template>
+        </van-image>
       </div>
       <div class="name">{{ item.name }}</div>
       <div class="intro">{{ item.spec }}</div>

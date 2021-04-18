@@ -36,7 +36,11 @@
               class="product-image"
               :src="product.small_image"
               lazy-load
-            ></van-image>
+            >
+              <template v-slot:loading>
+                <img width="70" height="70" src="../../../../assets/images/placeholderImg/product-img-load.png" alt="">
+              </template>
+            </van-image>
           </div>
           <div class="info">
             <div class="name">

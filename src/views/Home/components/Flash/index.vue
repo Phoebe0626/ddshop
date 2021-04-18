@@ -16,7 +16,7 @@
       <div ref="wrapper" class="wrapper">
         <ul class="goods">
           <li class="goods-item" v-for="(item, index) in flashGoods" :key="index" @click="$router.push(`/GoodsDetail?name=${item.name}&spec=${item.spec}&small_image=${item.small_image}&total_sales=${item.total_sales}&price=${item.price}&origin_price=${item.origin_price}&isFlash=true`)">
-            <img :src="item.small_image" alt="" style="width: 100%;">
+            <img :src="item.small_image" alt="" style="width: 100%;"/>
             <span class="name">{{ item.name }}</span>
             <div class="buy">
               <div class="price">
@@ -44,10 +44,11 @@
 
 <script>
 import { mapMutations, mapGetters } from 'vuex'
-import { Icon } from 'vant'
+import { Icon, Image } from 'vant'
 import BScroll from 'better-scroll'
 export default {
   components: {
+    [Image.name]: Image,
     [Icon.name]: Icon
   },
   props: {
@@ -204,6 +205,12 @@ export default {
           flex-shrink: 0;
           flex-basis: 2.8rem;
           padding-right: 0.5rem;
+          img {
+            width: 2.8rem;
+            height: 2.8rem;
+            background: url('../../../../assets/images/placeholderImg/product-img-load.png');
+            background-size: cover;
+          }
           .name {
             display: inline-block;
             font-size: 0.3129rem;

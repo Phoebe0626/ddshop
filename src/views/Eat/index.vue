@@ -68,7 +68,11 @@
             :src="item.image"
             lazy-load
             radius="8px"
-          ></van-image>
+          >
+            <template v-slot:loading>
+              <div class="loading-img"></div>
+            </template>
+          </van-image>
           <!-- 标题 -->
           <div class="title">
             {{ item.name }}
@@ -81,7 +85,11 @@
               width="35"
               height="35"
               lazy-load
-            ></van-image>
+            >
+              <template v-slot:loading>
+                <img width="35" height="35" src="../../assets/images/placeholderImg/product-img-load.png" alt="">
+              </template>
+            </van-image>
             <div class="name">{{item.author_name}}</div>
           </div>
         </li>
@@ -310,6 +318,12 @@ export default {
         padding: 0 .267rem;
         margin-bottom: .267rem;
         overflow: hidden;
+        .loading-img {
+          width: 4.587rem;
+          height: 3.307rem;
+          background: #fff url('../../assets/images/placeholderImg/product-img-load.png') no-repeat center;
+          background-size: contain;
+        }
         .cover {
           height: 3.333rem;
         }
