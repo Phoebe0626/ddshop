@@ -47,7 +47,7 @@
       </van-cell-group>
       <!-- 我的绿卡 -->
       <van-cell-group style="margin-top: 0.2rem;">
-        <van-cell icon="vip-card" is-link>
+        <van-cell icon="vip-card" is-link to="/dashboard/my/myVip">
           <template slot="title">
             <span class="custom-title">我的绿卡</span>
             <van-tag type="danger" round style="margin-left: .2rem;">New</van-tag>

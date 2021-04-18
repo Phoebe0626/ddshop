@@ -22,6 +22,7 @@ const AddAddress = () => import('../views/My/Children/Address/AddAddress.vue')
 const EditAddress = () => import('../views/My/Children/Address/EditAddress.vue')
 const GoodsDetail = () => import('../views/GoodsDetail')
 const Order = () => import('../views/Order')
+const myVip = () => import('../views/My/Children/MyVip.vue')
 // 登录页
 const Login = () => import('../views/Login')
 
@@ -105,6 +106,10 @@ const routes = [
           name: 'editAddress',
           component: EditAddress
         }]
+      }, {
+        path: 'myVip',
+        name: 'myVip',
+        component: myVip
       }]
     }, {
       path: '/GoodsDetail',
@@ -139,7 +144,7 @@ const router = new VueRouter({
   routes
 })
 // 添加导航守卫
-const list = ['userCenter', 'myOrder', 'coupon', 'myAddress']
+const list = ['userCenter', 'myOrder', 'coupon', 'myAddress', 'myVip']
 router.beforeEach((to, from, next) => {
   if (!store.getters.token && list.includes(to.name)) { // 进入 list 中的页面时，需要登录
     // next({
