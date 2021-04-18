@@ -98,19 +98,20 @@
         </ul>
       </div>
     </div>
-    <van-loading class="loading" v-show="isShowLoading" />
+    <Loading class="loading" v-show="isShowLoading" />
   </div>
 </template>
 
 <script>
-import { Search, Icon, Image, Loading } from 'vant'
+import { Search, Icon, Image } from 'vant'
 import { getTodayMenuCategoryList, getTodayMenuDetail } from '../../api/eat'
 import BScroll from 'better-scroll'
 import Skeleton from './components/Skeleton'
+import Loading from '../../components/Loading'
 export default {
   components: {
+    Loading,
     Skeleton,
-    [Loading.name]: Loading,
     [Image.name]: Image,
     [Icon.name]: Icon,
     [Search.name]: Search
@@ -360,13 +361,6 @@ export default {
       }
     }
   }
-}
-
-.loading {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 .dropdown-leave-active,
