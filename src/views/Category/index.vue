@@ -21,6 +21,7 @@
       <!-- 右侧数据 -->
       <content-view :rightContent=rightContent></content-view>
     </div>
+    <Loading v-show="isLoading" />
   </div>
 </template>
 
@@ -28,16 +29,19 @@
 import Header from './components/Header'
 import ContentView from './components/ContentView'
 import Skeleton from './components/Skeleton'
+import Loading from '../../components/Loading'
 import Bscroll from 'better-scroll'
 import { getCate, getCateDetail } from '../../api/cate'
 export default {
   components: {
+    Loading,
     Skeleton,
     ContentView,
     Header
   },
   data () {
     return {
+      isLoading: false, // 显示 loading 动画
       rightContent: [], // 右侧的数据
       currentIndex: 0, // 当前选中的分类
       category: [] // 分类列表
@@ -77,8 +81,10 @@ export default {
       } else {
         params = `lk00${index + 1}`
       }
+      this.isLoading = true
       const res = await getCateDetail(params)
       this.rightContent = res.data.cate
+      this.isLoading = false
     },
     // 初始化信息
     async initData () {
