@@ -39,6 +39,15 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.my-order-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #f5f5f5;
+  z-index: 999;
+}
  /deep/.van-icon-arrow-left {
   color: #ddd;
 }

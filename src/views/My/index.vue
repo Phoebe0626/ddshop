@@ -141,13 +141,15 @@ export default {
   background-color: #f5f5f5;
 }
 
-.router-view {
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 999;
-  background-color: #f5f5f5;
-}
+// .router-view {
+//   position: fixed;
+//   left: 0;
+//   right: 0;
+//   top: 0;
+//   bottom: 0;
+//   z-index: 999;
+//   // overflow-x: hidden;
+//   overflow-y: auto;
+//   background-color: #f5f5f5;
+// }
 </style>
