@@ -19,9 +19,9 @@
         <div class="privilege">
           <div class="title">绿卡特权</div>
           <van-grid :border="false">
-            <van-grid-item icon="vip-card-o" text="专享券" />
-            <van-grid-item icon="discount" text="专享特价" />
-            <van-grid-item icon="gem-o" text="2倍积分" />
+            <van-grid-item icon="vip-card-o" text="绿卡专享券" />
+            <van-grid-item icon="discount" text="绿卡专享价" />
+            <van-grid-item icon="calendar-o" text="周五绿卡日" />
             <van-grid-item icon="more-o" text="更多特权" />
           </van-grid>
           <div class="button">5折开通绿卡</div>
@@ -54,7 +54,7 @@
                 <div class="secondline">全场通用</div>
               </div>
             </div>
-            <div class="right">立即领取</div>
+            <div class="right" @click="$toast('开通绿卡，立享绿卡专享券')">立即领取</div>
           </div>
           <div class="coupons-item">
             <div class="left">
@@ -140,7 +140,7 @@
           </div>
         </div>
         <!-- 按钮 -->
-        <div class="button">查看全部800+绿卡价商品></div>
+        <div class="button" @click="$toast('暂未实现')">查看全部800+绿卡价商品></div>
       </div>
     </div>
     <!-- 绿卡日 -->
@@ -160,7 +160,11 @@
         </div>
       </div>
       <div class="svg">
-        <svg width="100%" height="100px" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <svg
+          width="100%"
+          height="100%"
+          preserveAspectRatio="xMinYMin meet"
+        >
           <defs>
             <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" style="stop-color:#156c64;stop-opacity:1" />
@@ -222,7 +226,7 @@
         <span class="txt">连续包年</span>
         ￥<span class="num">88</span>
       </div>
-      <div class="right">立即开通</div>
+      <div class="right" @click="$router.push('/vipPay')">立即开通</div>
     </footer>
   </div>
 </template>
@@ -241,6 +245,10 @@ export default {
   },
   mounted () {
     this.loadVipProduct()
+    const svg = document.getElementsByTagName('svg')
+    for (let index = 0; index < svg.length; index++) {
+      svg[index].setAttribute('viewBox', '0,0,' + svg[index].getBBox().width + ',' + svg[index].getBBox().height + '')
+    }
   },
   data () {
     return {
@@ -253,6 +261,7 @@ export default {
       console.log(item)
       const product = {
         checked: true,
+        count: 1,
         id: item.id,
         name: item.name,
         price: item.price,
