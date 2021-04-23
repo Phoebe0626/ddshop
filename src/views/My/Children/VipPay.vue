@@ -53,6 +53,11 @@
         </div>
       </div>
     </div>
+    <!-- 自动续费提示 -->
+    <div class="tag" v-if="currentIndex === 0 || currentIndex === 2">
+      <span class="text">自动续费，可随时关闭</span>
+      <van-icon class="icon" name="question-o" @click="hOpenDialog" />
+    </div>
     <!-- 支付按钮 -->
     <footer class="footer">
       立即支付
@@ -61,11 +66,12 @@
 </template>
 
 <script>
-import { NavBar, Image, Grid, GridItem, Icon } from 'vant'
+import { NavBar, Image, Grid, GridItem, Icon, Dialog } from 'vant'
 import { mapGetters } from 'vuex'
 import BScroll from 'better-scroll'
 export default {
   components: {
+    [Dialog.name]: Dialog,
     [Grid.name]: Grid,
     [GridItem.name]: GridItem,
     [Icon.name]: Icon,
@@ -118,6 +124,15 @@ export default {
         }
       ]
     }
+  },
+  methods: {
+    hOpenDialog () {
+      Dialog({
+        title: '自动续费声明',
+        message: '1. 会员到期前一天自动续费\n2. 扣费前短信通知，扣费过程公开透明\n3. 开通后可随时关闭，关闭后不影响当期权益使用',
+        messageAlign: 'left'
+      })
+    }
   }
 }
 </script>
@@ -132,6 +147,7 @@ export default {
     color: #eacf99;
   }
 }
+
 .vip-pay-container {
   position: fixed;
   top: 0;
@@ -173,9 +189,9 @@ export default {
     .item {
       flex-shrink: 0;
       width: 3.867rem;
-      height: 3.867rem;
+      height: 4rem;
       margin-right: .267rem;
-      padding: .667rem .267rem 0;
+      padding: .533rem .267rem;
       border: 1px solid #fcefba;
       border-radius: .213rem;
       box-sizing: border-box;
@@ -202,6 +218,17 @@ export default {
       }
     }
   }
+  .tag {
+    margin-top: .213rem;
+    color: #999;
+    font-size: .32rem;
+    .text {
+      padding: 0 .08rem 0 .267rem;
+    }
+    .icon {
+      vertical-align: -15%;
+    }
+  }
   .footer {
     position: fixed;
     left: 50%;
@@ -216,6 +243,27 @@ export default {
     font-weight: 700;
     color: #fff;
     background: linear-gradient(90deg, #306766 0%, #48924c 100%);
+  }
+}
+</style>
+
+<style lang="less">
+.van-dialog {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  height: 5.467rem;
+  transform: translate3d(0, 0, 0);
+  border-radius: .267rem;
+  .van-dialog__header {
+    font-weight: 700;
+  }
+  .van-button__text {
+    color: #55ac5d;
+    font-weight: 700;
   }
 }
 </style>
