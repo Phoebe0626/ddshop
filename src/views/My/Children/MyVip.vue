@@ -24,7 +24,7 @@
             <van-grid-item icon="calendar-o" text="周五绿卡日" />
             <van-grid-item icon="more-o" text="更多特权" />
           </van-grid>
-          <div class="button">5折开通绿卡</div>
+          <div class="button" @click="$router.push('/vipPay')">5折开通绿卡</div>
         </div>
       </div>
       <!-- 优惠券列表 -->

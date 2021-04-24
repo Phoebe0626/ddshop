@@ -175,9 +175,7 @@ export default {
     // 支付
     hPay () {
       if (!this.checked) return this.$toast('请先阅读并勾选服务协议哦')
-      const payType = this.payType === '1' ? '支付宝' : '微信'
-      const price = this.priceList[this.currentIndex].price
-      this.$toast.success(`${payType}支付${price}元`)
+      this.$toast('未实现支付功能哦')
     },
     // 自动续费声明
     hOpenDialog () {
@@ -342,6 +340,17 @@ export default {
 </style>
 
 <style lang="less">
+.van-toast {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  height: .8rem;
+  transform: translate3d(0, 0, 0);
+}
+
 .van-dialog {
   position: fixed;
   top: 0;

@@ -1,5 +1,5 @@
 <template>
-  <div class="vip">
+  <div class="vip" @click="$router.push('/vipPay')">
       <div class="left">
         <svg-icon class="vip-icon" iconClass="vip"></svg-icon>
         <span>加入会员·每年预计节省806元</span>
