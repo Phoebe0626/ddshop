@@ -58,19 +58,63 @@
       <span class="text">自动续费，可随时关闭</span>
       <van-icon class="icon" name="question-o" @click="hOpenDialog" />
     </div>
+    <!-- 支付方式 -->
+    <div class="pay-type">
+      <div class="title">支付方式</div>
+      <van-radio-group v-model="payType">
+        <van-cell-group>
+          <!-- 支付宝支付 -->
+          <van-cell clickable @click="payType = '1'">
+            <template slot="title">
+              <img src="../../../assets/images/order/zfb.png" alt="">
+              <span>支付宝支付</span>
+              <span style="font-size: 12px; color: red; margin-left: 5px">安全保障</span>
+            </template>
+            <template #right-icon>
+              <van-radio name="1" />
+            </template>
+          </van-cell>
+          <!-- 微信支付 -->
+          <van-cell clickable @click="payType = '2'">
+            <template slot="title">
+              <img src="../../../assets/images/order/wx.png" alt="">
+              <span>微信支付</span>
+            </template>
+            <template #right-icon>
+              <van-radio name="2" />
+            </template>
+          </van-cell>
+        </van-cell-group>
+      </van-radio-group>
+    </div>
     <!-- 支付按钮 -->
     <footer class="footer">
-      立即支付
+      <!-- 同意服务协议 -->
+      <div class="agree">
+        <van-checkbox v-model="checked" label-disabled>
+          已阅读并同意
+          <span @click="$toast('绿卡会员服务协议')">《绿卡会员服务协议》</span>和
+          <span @click="$toast('自动续费协议')">《自动续费协议》</span>
+        </van-checkbox>
+      </div>
+      <div class="btn" @click="hPay">
+        立即支付
+      </div>
     </footer>
   </div>
 </template>
 
 <script>
-import { NavBar, Image, Grid, GridItem, Icon, Dialog } from 'vant'
+import { NavBar, Image, Grid, GridItem, Icon, Dialog, Cell, CellGroup, RadioGroup, Radio, Checkbox } from 'vant'
 import { mapGetters } from 'vuex'
 import BScroll from 'better-scroll'
 export default {
   components: {
+    [Checkbox.name]: Checkbox,
+    [Radio.name]: Radio,
+    [RadioGroup.name]: RadioGroup,
+    [Cell.name]: Cell,
+    [CellGroup.name]: CellGroup,
     [Dialog.name]: Dialog,
     [Grid.name]: Grid,
     [GridItem.name]: GridItem,
@@ -100,6 +144,8 @@ export default {
   },
   data () {
     return {
+      checked: false, // 是否同意协议
+      payType: '1', // 支付方式
       currentIndex: 0,
       priceList: [
         {
@@ -126,6 +172,14 @@ export default {
     }
   },
   methods: {
+    // 支付
+    hPay () {
+      if (!this.checked) return this.$toast('请先阅读并勾选服务协议哦')
+      const payType = this.payType === '1' ? '支付宝' : '微信'
+      const price = this.priceList[this.currentIndex].price
+      this.$toast.success(`${payType}支付${price}元`)
+    },
+    // 自动续费声明
     hOpenDialog () {
       Dialog({
         title: '自动续费声明',
@@ -146,6 +200,16 @@ export default {
   .van-nav-bar__arrow {
     color: #eacf99;
   }
+}
+
+/deep/.van-radio__icon--checked .van-icon {
+  background-color: #468d4e;
+  border-color: #468d4e;
+}
+
+/deep/.van-checkbox__icon--checked .van-icon {
+  background-color: #468d4e;
+  border-color: #468d4e;
 }
 
 .vip-pay-container {
@@ -229,20 +293,50 @@ export default {
       vertical-align: -15%;
     }
   }
+  .pay-type {
+    .title {
+      height: 1.067rem;
+      line-height: 1.067rem;
+      padding-left: .4rem;
+      font-size: .373rem;
+      color: #222;
+    }
+    img {
+      width: .667rem;
+      height: .667rem;
+      vertical-align: middle;
+      margin-right: .133rem;
+    }
+  }
   .footer {
+    width: 100%;
     position: fixed;
     left: 50%;
     bottom: .267rem;
-    transform: translateX(-50%);
-    width: 90%;
-    height: 1.067rem;
-    line-height: 1.067rem;
-    text-align: center;
-    border-radius: .533rem;
-    font-size: .427rem;
-    font-weight: 700;
-    color: #fff;
-    background: linear-gradient(90deg, #306766 0%, #48924c 100%);
+    .agree {
+      width: 90%;
+      margin-bottom: .267rem;
+      transform: translateX(-50%);
+      /deep/.van-checkbox__label {
+        font-size: .32rem;
+        color: #666;
+      }
+      span {
+        color: #479051;
+      }
+    }
+    .btn {
+      transform: translateX(-50%);
+      width: 90%;
+      height: 1.067rem;
+      line-height: 1.067rem;
+      text-align: center;
+      border-radius: .533rem;
+      font-size: .427rem;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(90deg, #306766 0%, #48924c 100%);
+    }
   }
 }
 </style>
