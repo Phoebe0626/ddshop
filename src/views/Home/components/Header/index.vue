@@ -2,11 +2,11 @@
   <!-- 头部搜索框 -->
   <div class="header" :style="showBg ? 'background-color: #fff;' : ''">
     <!-- 选择位置 -->
-    <div class="location">
+    <!-- <div class="location">
       <van-icon name="location" />
       <span class="text">请选择位置&nbsp;</span>
       <van-icon name="arrow-down" />
-    </div>
+    </div> -->
     <div class="search">
       <van-icon class="icon" name="search" />
       <span>请输入商品名称</span>
@@ -57,28 +57,28 @@ export default {
   font-size: .373rem;
   z-index: 2;
   // 选择位置
-  .location {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 33%;
-    height: .853rem;
-    line-height: .853rem;
-    margin-top: .4rem;
-    color: #fff;
-    background-color: rgba(0, 0, 0, .5);
-    border-radius: .43rem;
-    .text {
-      margin: 0 .1rem;
-    }
-  }
+  // .location {
+  //   display: flex;
+  //   justify-content: center;
+  //   align-items: center;
+  //   width: 33%;
+  //   height: .853rem;
+  //   line-height: .853rem;
+  //   margin-top: .4rem;
+  //   color: #fff;
+  //   background-color: rgba(0, 0, 0, .5);
+  //   border-radius: .43rem;
+  //   .text {
+  //     margin: 0 .1rem;
+  //   }
+  // }
   // 搜索框
   .search {
     display: flex;
     justify-content: center;
     align-items: center;
     height: .853rem;
-    width: 64%;
+    width: 95%;
     margin-top: .4rem;
     background-color: #f5f5f5;
     border-radius: .43rem;
