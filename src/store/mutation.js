@@ -83,9 +83,11 @@ export default {
     state.userInfo = {}
     state.userBirth = ''
     state.userAddress = []
+    state.cartList = []
     removeLocalStore('user-info')
     removeLocalStore('user-birth')
     removeLocalStore('user-address')
+    removeLocalStore('cart-list')
   },
   // 保存选中的地址
   selectAddress (state, index) {
