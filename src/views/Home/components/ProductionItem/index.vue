@@ -120,6 +120,12 @@ export default {
     margin-bottom: .133rem;
     padding-bottom: .267rem;
     background-color: #fff;
+    .image {
+      .van-image {
+        width: 4.747rem;
+        height: 4.747rem;
+      }
+    }
     .name {
       font-size: .32rem;
       padding-left: .133rem;
