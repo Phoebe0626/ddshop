@@ -7,6 +7,8 @@ const request = axios.create({
 // 响应拦截器
 request.interceptors.response.use(res => {
   return res.data
+}, err => {
+  return Promise.reject(err)
 })
 
 export default request

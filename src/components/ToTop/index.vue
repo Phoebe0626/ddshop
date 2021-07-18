@@ -29,7 +29,6 @@ export default {
     hToTop () {
       const t = setInterval(() => {
         const scrollT = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-        console.log(scrollT)
         const perTick = Math.floor(-scrollT / 5)
         document.documentElement.scrollTop = document.body.scrollTop = scrollT + perTick
         if (scrollT === 0) {
